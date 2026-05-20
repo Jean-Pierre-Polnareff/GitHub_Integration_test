@@ -364,10 +364,10 @@ def extract_existing_descriptions(md_path: Path):
 
     # Per-page descriptions
     page_descriptions = {}
-    page_blocks = re.findall(
-        r"-\s+(.+?)\n!\[.*?\]\(.*?\)\n(.*?)(?=\n-\s+|\n##|\Z)",
-        content, re.DOTALL
-    )
+     page_blocks = re.findall(
+      r"###\s+(.+?)\n!\[.*?\]\(.*?\)\n\n(.*?)(?=\n###|\n##|\Z)",
+      content, re.DOTALL
+      )
     for page_name, desc_block in page_blocks:
         desc = desc_block.strip()
         if desc and desc != "_Add page description here._":
@@ -407,16 +407,15 @@ def generate_doc(
     lines.append("## Pages\n")
     if pages:
         for idx, page_name in enumerate(pages):
-            lines.append(f"- {page_name}")
-            if idx < len(png_list):
-                _, png_filename = png_list[idx]
-                encoded_png = png_filename.replace(" ", "%20")
-                lines.append(f"![{page_name}]({encoded_png})")
-            else:
-                lines.append(f"![{page_name}]()")
-            page_desc = existing_page_descs.get(page_name, "_Add page description here._")
-            lines.append(page_desc)
-            lines.append("")
+          lines.append(f"### {page_name}")
+          if idx < len(png_list):
+              _, png_filename = png_list[idx]
+              encoded_png = png_filename.replace(" ", "%20")
+              lines.append(f"![{page_name}]({encoded_png})\n")
+    else:
+        lines.append(f"![{page_name}]()\n")
+      page_desc = existing_page_descs.get(page_name, "_Add page description here._")
+      lines.append(f"{page_desc}\n")
     else:
         lines.append("_No pages found._\n")
     lines.append("---\n")
