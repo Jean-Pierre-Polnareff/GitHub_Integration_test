@@ -1,0 +1,235 @@
+table RPT_email_hourly
+	isHidden
+	lineageTag: ed07805a-c0ef-4c3d-bfa8-2dbe7175864b
+
+	measure 'Hourly Email Daterange' = ```
+			
+			VAR RangeStart = Min(RPT_email_hourly[event_date]) 
+			VAR RangeEnd = Max(RPT_email_hourly[event_date]) 
+			Return
+			CONCATENATE("Hourly Email Performance " , CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd))
+			
+			```
+		isHidden
+		lineageTag: 5eab86b2-b25f-4bec-a92e-54c168238d7d
+
+	column crm
+		dataType: string
+		isHidden
+		lineageTag: 0cf3f870-2e5e-4300-9077-31e6ffdcc7e1
+		summarizeBy: none
+		sourceColumn: crm
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column client
+		dataType: string
+		isHidden
+		lineageTag: bf760492-5456-4766-9a27-d6c0185f0433
+		summarizeBy: none
+		sourceColumn: client
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientsclientid
+		dataType: string
+		isHidden
+		lineageTag: a6ba26f4-859f-4d9a-85a0-8af5b24dcdfa
+		summarizeBy: none
+		sourceColumn: clientsclientid
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerState
+		dataType: string
+		isHidden
+		lineageTag: 54698875-f23a-4342-a45d-4bb7800ff0ba
+		summarizeBy: none
+		sourceColumn: CustomerState
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LTR
+		dataType: string
+		isHidden
+		lineageTag: 0f485004-15b9-4f2e-adbf-c9a459967e34
+		summarizeBy: none
+		sourceColumn: LTR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_date
+		dataType: dateTime
+		isHidden
+		formatString: m/d/yyyy
+		lineageTag: 12494bfa-367c-43b6-9cc4-48c268f34384
+		summarizeBy: none
+		sourceColumn: event_date
+
+		variation Variation
+			isDefault
+			relationship: 3d60f806-779f-4ee8-8322-2c83bf74ec6e
+			defaultHierarchy: LocalDateTable_e256bf4b-0e55-45a0-9d58-06314758b4de.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column hour_send_CT
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 99cf3b02-7fa8-40a4-9009-e440f6159b2f
+		summarizeBy: none
+		sourceColumn: hour_send_CT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column email_sends
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 62f8d256-9390-4460-8074-4d50646d856c
+		summarizeBy: sum
+		sourceColumn: email_sends
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column email_opens
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: ddcbb19c-a005-40fd-8cc9-ede628bd9e70
+		summarizeBy: sum
+		sourceColumn: email_opens
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column email_clicks
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: b88eb58b-28f7-4bce-bde6-52f5a73e80e3
+		summarizeBy: sum
+		sourceColumn: email_clicks
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column InsertDate
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 2340be76-f1ef-4c32-bcc2-d6866568a2ad
+		summarizeBy: none
+		sourceColumn: InsertDate
+
+		variation Variation
+			isDefault
+			relationship: 64bdeddc-7594-4116-b570-f03b310bb664
+			defaultHierarchy: LocalDateTable_3fa1cbff-5283-4e64-a63c-7c7bcd3dc53a.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month-Year = FORMAT(RPT_email_hourly[event_date],"MMM-YY")
+		isHidden
+		lineageTag: 10118cea-1c10-4573-b2a6-5d69319f23cc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column DoW = format(RPT_email_hourly[event_date], "ddd")
+		isHidden
+		lineageTag: 9a18764b-f14d-42e2-ac36-70cec213d952
+		summarizeBy: none
+		sortByColumn: 'DoW no.'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		isHidden
+		lineageTag: 0be50d60-42bd-4e1c-953e-3701dcc8f7d7
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		isHidden
+		lineageTag: 421c7675-e5d5-4436-ba5e-6f43cc12fc37
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		isHidden
+		lineageTag: 34e34cb6-67fe-4108-a278-60935b9f9971
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DoW no.' = WEEKDAY(RPT_email_hourly[event_date],2)
+		isHidden
+		formatString: 0
+		lineageTag: eb11f527-77ba-44d1-b285-0b000a0ff406
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column SendDomain
+		dataType: string
+		lineageTag: efd8cf31-7bd8-491d-8173-48f636b23dd8
+		summarizeBy: none
+		sourceColumn: SendDomain
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RPT_email_hourly-fe84d42d-8d51-43fc-99bd-1de5319a7796 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_RPT_email_hourly = Source{[Schema="dbo",Item="RPT_email_hourly"]}[Data],
+				    #"Merged Queries" = Table.NestedJoin(dbo_RPT_email_hourly, {"clientsclientid", "crm"}, ClientMapping, {"ClientId", "SourceSystem"}, "ClientMapping", JoinKind.LeftOuter),
+				    #"Expanded ClientMapping" = Table.ExpandTableColumn(#"Merged Queries", "ClientMapping", {"ClientParent", "ClientStreamId", "ClientStream"}, {"ClientParent", "ClientStreamId", "ClientStream"})
+				in
+				    #"Expanded ClientMapping"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

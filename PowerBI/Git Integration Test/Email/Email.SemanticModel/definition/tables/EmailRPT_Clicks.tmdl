@@ -1,0 +1,260 @@
+table EmailRPT_Clicks
+	isHidden
+	lineageTag: 42ca5233-bf88-4282-9cd1-de4776626a18
+
+	measure '% with Click' = DIVIDE(CALCULATE(SUM(EmailRPT_Clicks[clicks])),CALCULATE(SUM(EmailRPT_Clicks[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		isHidden
+		lineageTag: 7156301a-4fef-4c48-a945-7fd1ea39771a
+
+	measure '% Clicked Website' = DIVIDE(CALCULATE(SUM(EmailRPT_Clicks[clicks_website])),CALCULATE(SUM(EmailRPT_Clicks[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		isHidden
+		lineageTag: 635b2c5b-6ab2-4963-a9d9-6d2721a5b554
+
+	measure '% Clicked Privacy Policy' = DIVIDE(CALCULATE(SUM(EmailRPT_Clicks[clicks_privacypolicy])),CALCULATE(SUM(EmailRPT_Clicks[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		isHidden
+		lineageTag: 61332ef1-1288-405a-9034-0232a7fdbd33
+
+	measure '% Clicked FTC' = DIVIDE(CALCULATE(SUM(EmailRPT_Clicks[clicks_ftc])),CALCULATE(SUM(EmailRPT_Clicks[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		isHidden
+		lineageTag: e639893d-be15-4ee8-9a85-ed8197848d7f
+
+	measure Top10+Other =
+			VAR LettersbyClicks = RANKX(ALL(EmailRPT_Clicks[LTR]),calculate(SUM(EmailRPT_Clicks[clicks])),,DESC,Dense)
+			RETURN
+			IF(LettersbyClicks <= 'Select Top N Clients'[Select Top N Clients Value] , calculate(SUM(EmailRPT_Clicks[clicks])), BLANK())
+		formatString: 0
+		isHidden
+		lineageTag: ba9a143f-3f0a-469e-95d6-7f8f87ac7e8d
+
+	measure 'Clicks DateRange' = ```
+			
+			VAR RangeStart = Min(EmailRPT_Clicks[send_date]) 
+			VAR RangeEnd = Max(EmailRPT_Clicks[send_date]) 
+			Return
+			CONCATENATE(CONCATENATE(format(RangeStart,"MMM-YY")," - "),format(RangeEnd,"MMM-YY"))
+			```
+		isHidden
+		lineageTag: eb53cb71-f11e-42c8-8e78-ba057c14ae2f
+
+	column client
+		dataType: string
+		isHidden
+		lineageTag: 6924bdba-93df-4882-bacc-03d5ea879dae
+		summarizeBy: none
+		sourceColumn: client
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LTR
+		dataType: string
+		isHidden
+		lineageTag: 9449f9cf-930e-4c29-ab0e-5f2ff90169dc
+		summarizeBy: none
+		sourceColumn: LTR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivered
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 45ac876b-9944-4304-a159-20852bec81c5
+		summarizeBy: sum
+		sourceColumn: delivered
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column clicks
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 1adaf04d-02a1-4985-8d5a-c82d21d2ba70
+		summarizeBy: sum
+		sourceColumn: clicks
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column clicks_website
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: fa264b12-b3f8-4e78-8f5c-8b3660e7b12d
+		summarizeBy: sum
+		sourceColumn: clicks_website
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column clicks_privacypolicy
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: a59fcb04-3bd0-4813-8fba-7f249bfb0e68
+		summarizeBy: sum
+		sourceColumn: clicks_privacypolicy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column clicks_ftc
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: d0c8c759-9515-45ce-a343-270521973e36
+		summarizeBy: sum
+		sourceColumn: clicks_ftc
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month-Year = FORMAT(EmailRPT_Clicks[send_date],"MMM-YY")
+		isHidden
+		lineageTag: a6ed1811-e178-4bae-aa8d-8dd2d4d17ebc
+		summarizeBy: none
+		sortByColumn: YYYYMM
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm
+		dataType: string
+		isHidden
+		lineageTag: 272c6ef1-3e94-4631-b36f-19a989b8497e
+		summarizeBy: none
+		sourceColumn: crm
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column send_date
+		dataType: dateTime
+		isHidden
+		formatString: m/d/yyyy
+		lineageTag: fe15f2a7-c1c0-445a-af32-58bd6978c047
+		summarizeBy: none
+		sourceColumn: send_date
+
+		variation Variation
+			isDefault
+			relationship: 2a41b987-ae0b-4e9f-954d-8f7bfe89a6ef
+			defaultHierarchy: LocalDateTable_659c70f7-8713-4a23-ab27-5a2822e81db4.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column YYYYMM =
+			
+			VAR YYYY= YEAR(EmailRPT_Clicks[send_date])
+			VAR MM =  FORMAT(EmailRPT_Clicks[send_date],"mm")
+			RETURN
+			YYYY & MM
+		isHidden
+		lineageTag: 0e138ed1-dc9f-4c58-83b1-41eb900af19d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientid
+		dataType: string
+		isHidden
+		lineageTag: 0330dcc4-30f1-46a9-97f2-670bab5e89eb
+		summarizeBy: none
+		sourceColumn: clientid
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		isHidden
+		sourceProviderType: nvarchar(max)
+		lineageTag: 52684b0c-12fa-4221-b452-d49299a935ef
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		isHidden
+		sourceProviderType: nvarchar(max)
+		lineageTag: 481c9bd8-ec98-4349-b0cc-13c1a3aec6da
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		isHidden
+		sourceProviderType: nvarchar(max)
+		lineageTag: d5870dd4-bdb1-42d0-997a-579605801936
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Date' = STARTOFMONTH(EmailRPT_Clicks[send_date])
+		isHidden
+		formatString: Short Date
+		lineageTag: 79ed891f-763d-4fa9-8977-7373ed0e0980
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: b4279dfc-9ee1-41bd-9c5c-d6f44ae9bc58
+			defaultHierarchy: LocalDateTable_adf65077-e6e5-4ced-834c-80b39300c045.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SendDomain
+		dataType: string
+		lineageTag: 4a3b5ffb-16b3-4f0f-8c3a-f43d30c6d4c8
+		summarizeBy: none
+		sourceColumn: SendDomain
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EmailRPT_Clicks-52b867c8-a9be-4da0-931d-68501c10bb1c = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_RPT_Email_Clicks_daily = Source{[Schema="dbo",Item="RPT_Email_Clicks_daily"]}[Data],
+				    #"Merged Queries" = Table.NestedJoin(dbo_RPT_Email_Clicks_daily, {"clientid", "crm"}, ClientMapping, {"ClientId", "SourceSystem"}, "ClientMapping", JoinKind.LeftOuter),
+				    #"Expanded ClientMapping" = Table.ExpandTableColumn(#"Merged Queries", "ClientMapping", {"ClientParent", "ClientStreamId", "ClientStream"}, {"ClientParent", "ClientStreamId", "ClientStream"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Expanded ClientMapping", each [send_date] >= RangeStart and [send_date] < RangeEnd)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_QueryRelationships = {"columnCount":8,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/EmailRPT_Clicks/Source.{send_month,0}","Section1/EmailRPT_Clicks/Source.{client,1}","Section1/EmailRPT_Clicks/Source.{LTR,2}","Section1/EmailRPT_Clicks/Source.{delivered,3}","Section1/EmailRPT_Clicks/Source.{clicks,4}","Section1/EmailRPT_Clicks/Source.{clicks_website,5}","Section1/EmailRPT_Clicks/Source.{clicks_privacypolicy,6}","Section1/EmailRPT_Clicks/Source.{clicks_ftc,7}"],"ColumnCount":8,"KeyColumnNames":[],"ColumnIdentities":["Section1/EmailRPT_Clicks/Source.{send_month,0}","Section1/EmailRPT_Clicks/Source.{client,1}","Section1/EmailRPT_Clicks/Source.{LTR,2}","Section1/EmailRPT_Clicks/Source.{delivered,3}","Section1/EmailRPT_Clicks/Source.{clicks,4}","Section1/EmailRPT_Clicks/Source.{clicks_website,5}","Section1/EmailRPT_Clicks/Source.{clicks_privacypolicy,6}","Section1/EmailRPT_Clicks/Source.{clicks_ftc,7}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

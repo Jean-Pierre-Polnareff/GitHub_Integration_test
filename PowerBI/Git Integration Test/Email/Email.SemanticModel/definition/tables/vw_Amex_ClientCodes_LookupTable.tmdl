@@ -1,0 +1,89 @@
+table vw_Amex_ClientCodes_LookupTable
+	lineageTag: 1a1400d5-c455-43a1-bb0a-4818c0fe1d78
+
+	column ClientCode
+		dataType: string
+		isHidden
+		lineageTag: 9c650e95-b6bf-4d34-b4ed-9d62a9507570
+		summarizeBy: none
+		sourceColumn: ClientCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StandardParentCode
+		dataType: string
+		isHidden
+		lineageTag: a082502c-e417-41a8-b887-77dff3d17e7d
+		summarizeBy: none
+		sourceColumn: StandardParentCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		isHidden
+		lineageTag: 3ad89207-6b10-41b2-b934-7718be2f01fc
+		summarizeBy: none
+		sourceColumn: Description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstPartyFlag
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: acc27ca7-8671-41cf-84a3-c40fab4cb94a
+		summarizeBy: none
+		sourceColumn: FirstPartyFlag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column amex_segment
+		dataType: string
+		isHidden
+		lineageTag: 6583d1bc-1866-481c-a927-85e6df1be277
+		summarizeBy: none
+		sourceColumn: amex_segment
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Amex Segment'
+		dataType: string
+		lineageTag: 5ce73a27-5a42-4ac1-8ed9-8a86d799c325
+		summarizeBy: none
+		sourceColumn: Amex Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Amex Segment Group'
+		dataType: string
+		lineageTag: 740bdd2e-68a1-4953-917e-7aa906393bac
+		summarizeBy: none
+		sourceColumn: Amex Segment Group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_Amex_ClientCodes_LookupTable-7557ccdf-18fa-4e58-897d-13b46035445c = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("dfw2-bisql-001", "client_analytics"),
+				    dbo_vw_Amex_ClientCodes_LookupTable = Source{[Schema="dbo",Item="vw_Amex_ClientCodes_LookupTable"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(dbo_vw_Amex_ClientCodes_LookupTable,{{"Amex_Segment_Description", "Amex Segment"}, {"Amex_Segment_Group", "Amex Segment Group"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

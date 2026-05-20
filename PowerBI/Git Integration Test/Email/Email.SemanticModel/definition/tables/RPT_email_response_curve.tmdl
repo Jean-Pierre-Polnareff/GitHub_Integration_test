@@ -1,0 +1,729 @@
+table RPT_email_response_curve
+	isHidden
+	lineageTag: 8608beff-fb9f-4802-a1c4-8773a73a7a04
+
+	measure 'Total Bounces' = ```
+			CALCULATE(
+			SUM(RPT_email_response_curve[bounces_0to5]) 
+			+ SUM(RPT_email_response_curve[bounces_6to10]) 
+			+ SUM(RPT_email_response_curve[bounces_11to15]) 
+			+ SUM(RPT_email_response_curve[bounces_16to20])
+			+ SUM(RPT_email_response_curve[bounces_21to25]) 
+			+ SUM(RPT_email_response_curve[bounces_26to30]) 
+			+ SUM(RPT_email_response_curve[bounces_30plus])
+			)
+			```
+		formatString: #,0
+		isHidden
+		lineageTag: 599ac3e2-e1bf-406c-9619-8b62004b4d8e
+
+	measure 'Total Opened' = ```
+			CALCULATE(
+			SUM(RPT_email_response_curve[open_0to5]) 
+			+ SUM(RPT_email_response_curve[open_6to10]) 
+			+ SUM(RPT_email_response_curve[open_11to15]) 
+			+ SUM(RPT_email_response_curve[open_16to20])
+			+ SUM(RPT_email_response_curve[open_21to25]) 
+			+ SUM(RPT_email_response_curve[open_26to30]) 
+			+ SUM(RPT_email_response_curve[open_30plus])
+			)
+			```
+		formatString: #,0
+		isHidden
+		lineageTag: 028815d3-86a0-40a6-bf2c-5f63b3b03752
+
+	measure 'Total Clicks' = ```
+			CALCULATE(
+			SUM(RPT_email_response_curve[click_0to5]) 
+			+ SUM(RPT_email_response_curve[click_6to10]) 
+			+ SUM(RPT_email_response_curve[click_11to15]) 
+			+ SUM(RPT_email_response_curve[click_16to20])
+			+ SUM(RPT_email_response_curve[click_21to25]) 
+			+ SUM(RPT_email_response_curve[click_26to30]) 
+			+ SUM(RPT_email_response_curve[click_30plus])
+			)
+			```
+		formatString: #,0
+		isHidden
+		lineageTag: 0ae9a1b7-0b4c-4994-95fd-b2d2eb13d7a7
+
+	measure 'Total Spams' = ```
+			CALCULATE(
+			SUM(RPT_email_response_curve[spam_0to5]) 
+			+ SUM(RPT_email_response_curve[spam_6to10]) 
+			+ SUM(RPT_email_response_curve[spam_11to15]) 
+			+ SUM(RPT_email_response_curve[spam_16to20])
+			+ SUM(RPT_email_response_curve[spam_21to25]) 
+			+ SUM(RPT_email_response_curve[spam_26to30]) 
+			+ SUM(RPT_email_response_curve[spam_30plus])
+			)
+			```
+		formatString: #,0
+		isHidden
+		lineageTag: 430c05e4-e42f-4d99-a920-685ec92b73ee
+
+	measure 'open_0to5 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_0to5]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 6b04e36b-71af-49a9-8574-eccd23488254
+
+	measure 'open_11to15 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_11to15]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: a0ce4e7e-6df0-4271-b9f8-b043fe864294
+
+	measure 'open_16to20 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_16to20]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 86ea2525-941f-4bf7-9cdf-daeb9d17360e
+
+	measure 'open_21to25 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_21to25]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: a21608e7-f9a1-4b6b-aaaf-3959a7922b17
+
+	measure 'open_26to30 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_26to30]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 2f163900-6779-44ec-b837-349dc9e6c054
+
+	measure 'open_6to10 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_6to10]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 332a973e-11bf-4c08-a990-ad1e5cc6b8d1
+
+	measure 'open_30plus %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[open_30plus]), [Total Opened]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 656ef6c3-f2ff-446b-8ca7-8376607cf171
+
+	measure 'spam_6to10 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_6to10]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: e8258cec-8805-433d-b22a-cbf51fe815d5
+
+	measure 'spam_0to5 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_0to5]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: ad641cb9-9ed3-4190-a3b1-d5a5a54b2e44
+
+	measure 'spam_11to15 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_11to15]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 6af9ad0d-3348-423e-9ea5-ac8af1152a1c
+
+	measure 'spam_16to20 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_16to20]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 546652ef-51a2-405a-a70c-cb5696dd197d
+
+	measure 'spam_26to30 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_26to30]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 1b06247a-76ee-4247-9388-d4d6bf719981
+
+	measure 'spam_21to25 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_21to25]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 4910820e-476d-4c5a-901a-6f47874e2dbb
+
+	measure 'spam_30plus %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[spam_30plus]), [Total Spams]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 03a89473-31f3-4f6d-bcc5-5badbf2b4643
+
+	measure 'click_6to10 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_6to10]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 59124340-4958-42f2-aa59-99a4e84cfaec
+
+	measure 'click_0to5 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_0to5]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 330b6cb8-426e-4bd1-98bb-4ab0b3d6c8f1
+
+	measure 'click_11to15 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_11to15]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: ba0b5641-d275-4abc-a5a4-6afe7ccd4d68
+
+	measure 'click_16to20 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_16to20]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 80258357-6fb8-430d-934f-3b29a64a5364
+
+	measure 'click_21to25 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_21to25]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 4f2d2f86-010f-43b4-9499-d4c7bf3e9d8a
+
+	measure 'click_26to30 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_26to30]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 47eabb2e-b1d3-4c59-8561-0a514d768696
+
+	measure 'click_30plus %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[click_30plus]), [Total Clicks]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 32eaa60d-3221-4a0b-8078-459952147211
+
+	measure 'bounces_0to5 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_0to5]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 045b396b-cf29-48c6-b309-4b1babeb1e51
+
+	measure 'bounces_6to10 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_6to10]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: cc74cfec-83fe-45ef-a57c-17ed7b7343f4
+
+	measure 'bounces_11to15 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_11to15]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 43e2245d-3f50-42ae-a5cf-3b447ed86fdd
+
+	measure 'bounces_16to20 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_16to20]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: a67d76ac-b856-470a-99de-37f455c1e0b7
+
+	measure 'bounces_21to25 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_21to25]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: ae5001a8-cfea-4dee-bc60-8451bf7f4803
+
+	measure 'bounces_26to30 %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_26to30]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: c0a23392-64b9-4bba-be46-7f29a70aec0e
+
+	measure 'bounces_30plus %' = CALCULATE(DIVIDE(SUM(RPT_email_response_curve[bounces_30plus]), [Total Bounces]))
+		formatString: 0\ %;-0\ %;0\ %
+		isHidden
+		lineageTag: 43a36c79-e606-44fb-916f-2e60f4eb8481
+
+	measure 'Email Response Curve DateRange' = ```
+			
+			VAR RangeStart = Min(RPT_email_response_curve[send_date]) 
+			VAR RangeEnd = Max(RPT_email_response_curve[send_date]) 
+			Return
+			-----CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd)
+			CONCATENATE("Monthly Email Performance " ,  CONCATENATE(CONCATENATE(format(RangeStart,"MMM-YY")," - "),format(RangeEnd,"MMM-YY")))
+			
+			
+			```
+		isHidden
+		lineageTag: e2d08847-d33e-4be2-b32e-a67dc0a11215
+
+	column send_date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 39aeee00-a182-4af7-aaf0-67b27fa442fc
+		summarizeBy: none
+		sourceColumn: send_date
+
+		variation Variation
+			isDefault
+			relationship: 96b37979-14e8-4f38-99bc-968a9987caec
+			defaultHierarchy: LocalDateTable_cc70e8d5-705d-496b-ba99-8e13229e837d.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column crm
+		dataType: string
+		isHidden
+		lineageTag: 6ae03683-5835-41ed-bff7-f20c11ace608
+		summarizeBy: none
+		sourceColumn: crm
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column client
+		dataType: string
+		isHidden
+		lineageTag: 46aab6da-27ce-41c3-bf73-007cbe358bb2
+		summarizeBy: none
+		sourceColumn: client
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LTR
+		dataType: string
+		isHidden
+		lineageTag: 762e1b15-0370-455b-a9d3-aa524ce2533f
+		summarizeBy: none
+		sourceColumn: LTR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientid
+		dataType: string
+		isHidden
+		lineageTag: a36c58c2-221f-4bd5-ae94-f4890d193430
+		summarizeBy: none
+		sourceColumn: clientid
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 0a2cc1be-2b01-47cf-b941-47a76866074d
+		summarizeBy: sum
+		sourceColumn: requested
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivered
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 518f5517-4417-4283-87a4-db67d4f2a372
+		summarizeBy: sum
+		sourceColumn: delivered
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_0to5
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 845d9db5-3438-4664-91bb-687059d7c09e
+		summarizeBy: sum
+		sourceColumn: bounces_0to5
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_6to10
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 18e45d52-b78d-44a3-bacc-5ae56ac4eab2
+		summarizeBy: sum
+		sourceColumn: bounces_6to10
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_11to15
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: c1e66aa1-f5c8-4813-8a98-98779229001b
+		summarizeBy: sum
+		sourceColumn: bounces_11to15
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_16to20
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 84f6affd-1b86-42a9-ad59-785efcd80641
+		summarizeBy: sum
+		sourceColumn: bounces_16to20
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_21to25
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 548b1eaf-8418-4cbd-b79d-7840c019d317
+		summarizeBy: sum
+		sourceColumn: bounces_21to25
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_26to30
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 65c0c614-0af4-46b9-87ad-8163658fafc5
+		summarizeBy: sum
+		sourceColumn: bounces_26to30
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounces_30plus
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 6a1632e4-84b9-4cb8-9d83-247f44727013
+		summarizeBy: sum
+		sourceColumn: bounces_30plus
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_0to5
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 57701de1-2c33-4fb8-9734-68857d86a7c2
+		summarizeBy: sum
+		sourceColumn: spam_0to5
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_6to10
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 65fb2c55-03cf-46bb-a9b2-ec6b3843d190
+		summarizeBy: sum
+		sourceColumn: spam_6to10
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_11to15
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 61463fb5-fcdb-4a1d-8d0e-326173480c0f
+		summarizeBy: sum
+		sourceColumn: spam_11to15
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_16to20
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 837754b0-d6bf-4333-8e3d-225e9f373869
+		summarizeBy: sum
+		sourceColumn: spam_16to20
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_21to25
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 7366ccc2-0410-403e-8860-b0348141d6fa
+		summarizeBy: sum
+		sourceColumn: spam_21to25
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_26to30
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: dc48ef63-c2cd-45f0-85fc-3d521868acd4
+		summarizeBy: sum
+		sourceColumn: spam_26to30
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column spam_30plus
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: fc1ee827-fc78-4c98-9625-d0c0b86707e2
+		summarizeBy: sum
+		sourceColumn: spam_30plus
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_0to5
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: ae658967-b572-4c54-9c43-f0a47b64e267
+		summarizeBy: sum
+		sourceColumn: open_0to5
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_6to10
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 593ec2d0-3f59-4f26-a0a7-aa06d48754e3
+		summarizeBy: sum
+		sourceColumn: open_6to10
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_11to15
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 1eb64920-04fa-491d-939a-af6102fedd29
+		summarizeBy: sum
+		sourceColumn: open_11to15
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_16to20
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: f7c3c03c-1cb2-462e-87cb-859de296bb07
+		summarizeBy: sum
+		sourceColumn: open_16to20
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_21to25
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 81d34606-b6bf-4c23-b676-a2b898ef9ac6
+		summarizeBy: sum
+		sourceColumn: open_21to25
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_26to30
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 7ab78712-d47d-4f67-a35a-5ee51876e2c9
+		summarizeBy: sum
+		sourceColumn: open_26to30
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_30plus
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 5f97ebb6-b03e-4077-a79a-da1833cf0242
+		summarizeBy: sum
+		sourceColumn: open_30plus
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_0to5
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: d593ab12-bfaa-4bad-99e0-c8a6a42a2a9e
+		summarizeBy: sum
+		sourceColumn: click_0to5
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_6to10
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 82c6f781-bb6b-4eaf-91c5-581868356913
+		summarizeBy: sum
+		sourceColumn: click_6to10
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_11to15
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: decf6676-cedc-460b-aaac-c859786797e7
+		summarizeBy: sum
+		sourceColumn: click_11to15
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_16to20
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: b8f6fcd1-a56e-439d-9760-38a3642eacea
+		summarizeBy: sum
+		sourceColumn: click_16to20
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_21to25
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: ef205fa0-27ae-4fad-8636-4765fa0916c5
+		summarizeBy: sum
+		sourceColumn: click_21to25
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_26to30
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 9526fa6b-9e6c-41de-abdf-4a97e94d1909
+		summarizeBy: sum
+		sourceColumn: click_26to30
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_30plus
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 5c6fc35a-358e-420b-a827-a2436d73a240
+		summarizeBy: sum
+		sourceColumn: click_30plus
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month-Year = FORMAT(RPT_email_response_curve[send_date],"MMM-YY")
+		isHidden
+		lineageTag: 865bbe17-9dc3-4f6d-973a-0064907eff48
+		summarizeBy: none
+		sortByColumn: YYYYMM
+
+		annotation SummarizationSetBy = Automatic
+
+	column YYYYMM =
+			
+			VAR YYYY= YEAR(RPT_email_response_curve[send_date])
+			VAR MM =  FORMAT(RPT_email_response_curve[send_date],"mm")
+			RETURN
+			YYYY & MM
+		isHidden
+		lineageTag: 7f1e6a8f-7e76-4bde-938b-a23ea5f5dd8e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		isHidden
+		lineageTag: 88ebcec5-d64d-4204-a26d-8dd1c4b0e797
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		isHidden
+		lineageTag: 293895b9-b017-453a-86ec-9bf2e7b94257
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		isHidden
+		lineageTag: 835eb96b-c560-455e-9989-45a1fff7ad81
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Date' = STARTOFMONTH(RPT_email_response_curve[send_date])
+		isHidden
+		formatString: Short Date
+		lineageTag: 3cd7f763-6d60-48b5-ba9a-ef1f74b6ed5c
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 5c2efea5-feb5-45d0-9359-8fe101e13bdb
+			defaultHierarchy: LocalDateTable_8fe08b82-c163-4cac-889f-30ce08e9f541.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SendDomain
+		dataType: string
+		lineageTag: a457ab28-16f7-43e2-bdb5-f4b09afaa375
+		summarizeBy: none
+		sourceColumn: SendDomain
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RPT_email_response_curve-942a7868-fae4-4e75-9b31-ac729009bc70 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_RPT_email_response_curve = Source{[Schema="dbo",Item="RPT_email_response_curve"]}[Data],
+				    #"Merged Queries" = Table.NestedJoin(dbo_RPT_email_response_curve, {"crm", "clientid"}, ClientMapping, {"SourceSystem", "ClientId"}, "ClientMapping", JoinKind.LeftOuter),
+				    #"Expanded ClientMapping" = Table.ExpandTableColumn(#"Merged Queries", "ClientMapping", {"ClientParent", "ClientStreamId", "ClientStream"}, {"ClientParent", "ClientStreamId", "ClientStream"})
+				in
+				    #"Expanded ClientMapping"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

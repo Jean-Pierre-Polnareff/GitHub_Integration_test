@@ -1,0 +1,292 @@
+table RPT_email_firstmo_unq
+	lineageTag: 74990946-9d13-47fe-9c37-7ff029a4dcb4
+
+	measure 'Unq Scrub Rate' =
+			
+			VAR invalidemailscrubbed = Calculate(sum(RPT_email_firstmo_unq[unq_account_email_scrubbed]))
+			VAR optoutscrubbed = CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_optout_scrubbed]))
+			VAR whitelistscrubbed = CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_whitelist_scrubbed]))
+			VAR requested = CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_requested]))
+			RETURN
+			CALCULATE((invalidemailscrubbed + optoutscrubbed + whitelistscrubbed)/requested)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 0ef42842-d96a-4e07-b08d-1adbe44e6189
+
+	measure 'Unq Bounce Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_bounced])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_sent])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 6b34f493-2d04-4ebf-ab47-3aa1f1965383
+
+	measure 'Unq Delivered Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_sent])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: afb74a5f-f6e2-47bb-83ad-91611f2215d5
+
+	measure 'Unq Open Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_opens])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: ad7c0d75-9d1f-4275-9656-e78e635e0f60
+
+	measure 'Unq Optout Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_optouts])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 0c84e5d6-b7d8-419e-94fd-f3a5106b43d8
+
+	measure 'Unq Spam Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_marked_as_spam])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 5004b471-7e57-490d-bc17-c1a90267fcd6
+
+	measure 'Unq Click Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_clicks])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: be602577-fe1c-4ae4-8ec3-db9045bc2657
+
+	measure 'Unq Pay Rate' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[payers])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: fbcb5966-8a13-4443-bef0-f39b1ae12a77
+
+	measure 'Unq $ per Delivered' = DIVIDE(CALCULATE(SUM(RPT_email_firstmo_unq[payments])),CALCULATE(SUM(RPT_email_firstmo_unq[unq_account_delivered])))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: d9919e74-2baf-4b39-b3fc-e9c64aed802e
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Lifetime Email DateRange' = ```
+			
+			VAR RangeStart = Min(RPT_email_firstmo_unq[first_send_event_month]) 
+			VAR RangeEnd = Max(RPT_email_firstmo_unq[first_send_event_month]) 
+			Return
+			-----CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd)
+			CONCATENATE("Lifetime Email Performance " , CONCATENATE(CONCATENATE(format(RangeStart,"MMM-YY")," - "),format(RangeEnd,"MMM-YY")))
+			
+			```
+		isHidden
+		lineageTag: bfbad6d5-583f-419f-a29d-8c4dd0411f5f
+
+	column first_send_event_month
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: datetime
+		lineageTag: dee1e53b-1600-41b7-a437-57136dd5256a
+		summarizeBy: none
+		sourceColumn: first_send_event_month
+
+		variation Variation
+			isDefault
+			relationship: 79817480-d770-4c7f-b087-3a330b2a34f0
+			defaultHierarchy: LocalDateTable_9b898957-68dc-4844-8976-5e474f2b71a5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column client
+		dataType: string
+		lineageTag: 1d3aa8e8-d1f8-4dd1-8db8-7eb72ff2dff5
+		summarizeBy: none
+		sourceColumn: client
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm
+		dataType: string
+		lineageTag: ceb101ef-3e48-41a3-87e0-64534332f022
+		summarizeBy: none
+		sourceColumn: crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_requested
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 7775bbb1-25ce-450b-9018-b1c6b65643de
+		summarizeBy: sum
+		sourceColumn: unq_account_requested
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_whitelist_scrubbed
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9804c27d-c65e-40f8-a7a4-b53352555a8a
+		summarizeBy: sum
+		sourceColumn: unq_account_whitelist_scrubbed
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_optout_scrubbed
+		dataType: int64
+		formatString: #,0
+		lineageTag: e3529608-a261-41a9-bcf7-1d6626c68944
+		summarizeBy: sum
+		sourceColumn: unq_account_optout_scrubbed
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_email_scrubbed
+		dataType: int64
+		formatString: #,0
+		lineageTag: c2ce2aa5-0dc8-401e-809b-8e770505359f
+		summarizeBy: sum
+		sourceColumn: unq_account_email_scrubbed
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_sent
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7fd21db4-474c-481a-a583-b7c443d2a3b4
+		summarizeBy: sum
+		sourceColumn: unq_account_sent
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_bounced
+		dataType: int64
+		formatString: #,0
+		lineageTag: 293d62ca-3ad0-4898-ad0d-933bc5fee27c
+		summarizeBy: sum
+		sourceColumn: unq_account_bounced
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_delivered
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8ccaa126-3b60-4b1e-b0b6-bb768e695589
+		summarizeBy: sum
+		sourceColumn: unq_account_delivered
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_opens
+		dataType: int64
+		formatString: #,0
+		lineageTag: b852a874-b571-4639-bfcf-678d640293a8
+		summarizeBy: sum
+		sourceColumn: unq_account_opens
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_optouts
+		dataType: int64
+		formatString: #,0
+		lineageTag: c8fd91ea-f5ac-47c3-8bd0-3fd541e417d4
+		summarizeBy: sum
+		sourceColumn: unq_account_optouts
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_marked_as_spam
+		dataType: int64
+		formatString: #,0
+		lineageTag: ffbcea3e-d69d-448a-87ef-161d2c8a37ab
+		summarizeBy: sum
+		sourceColumn: unq_account_marked_as_spam
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_account_clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: 651fd489-301a-4edc-9495-12b326721336
+		summarizeBy: sum
+		sourceColumn: unq_account_clicks
+
+		annotation SummarizationSetBy = Automatic
+
+	column payers
+		dataType: int64
+		formatString: #,0
+		lineageTag: cbd8f5b8-6fac-4b1c-9f1d-e858fcf50e34
+		summarizeBy: sum
+		sourceColumn: payers
+
+		annotation SummarizationSetBy = Automatic
+
+	column payments
+		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: db749164-b5c5-4f79-bcbe-0e702865c8f5
+		summarizeBy: sum
+		sourceColumn: payments
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Month-Year = FORMAT(RPT_email_firstmo_unq[first_send_event_month],"MMM-YY")
+		lineageTag: d6fc7bcb-3da7-4149-95ea-e990ff3a6b47
+		summarizeBy: none
+		sortByColumn: YYYYMM
+
+		annotation SummarizationSetBy = Automatic
+
+	column YYYYMM =
+			
+			VAR YYYY= YEAR(RPT_email_firstmo_unq[first_send_event_month])
+			VAR MM =  FORMAT(RPT_email_firstmo_unq[first_send_event_month],"mm")
+			RETURN
+			YYYY & MM
+		isHidden
+		lineageTag: bca4c773-d625-4cca-95db-a2598459b89e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_send_acccounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: cbbc7ef3-ebfd-4967-a975-c9bd7e44a74d
+		summarizeBy: sum
+		sourceColumn: first_send_acccounts
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientid
+		dataType: string
+		lineageTag: 7e479d9d-fac3-49e9-ac16-9228083d30cf
+		summarizeBy: none
+		sourceColumn: clientid
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 03e57988-f471-4408-9ebb-1a96008e0773
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: ed2d8236-e913-4aa1-811e-05a5cb390d2c
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: b02e746f-cb8d-46b1-811c-162a9427123b
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RPT_email_firstmo_unq-94c8c05d-9a2a-41a7-8d26-45a96a325f46 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_RPT_email_firstmo_unq = Source{[Schema="dbo",Item="RPT_email_firstmo_unq"]}[Data],
+				    #"Merged Queries" = Table.NestedJoin(dbo_RPT_email_firstmo_unq, {"clientid", "crm"}, ClientMapping, {"ClientId", "SourceSystem"}, "ClientMapping", JoinKind.LeftOuter),
+				    #"Expanded ClientMapping" = Table.ExpandTableColumn(#"Merged Queries", "ClientMapping", {"ClientParent", "ClientStreamId", "ClientStream"}, {"ClientParent", "ClientStreamId", "ClientStream"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Expanded ClientMapping", each [first_send_event_month] >= RangeStart and [first_send_event_month] < RangeEnd)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

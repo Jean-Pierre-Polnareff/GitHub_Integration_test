@@ -1,0 +1,89 @@
+relationship f7f28d9a-1a9c-4720-8e1b-d5239363df46
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_Email.send_date
+	toColumn: LocalDateTable_b7d67602-3e79-4fd2-bf22-ba79b4e39ede.Date
+
+relationship 2a41b987-ae0b-4e9f-954d-8f7bfe89a6ef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EmailRPT_Clicks.send_date
+	toColumn: LocalDateTable_659c70f7-8713-4a23-ab27-5a2822e81db4.Date
+
+relationship 79817480-d770-4c7f-b087-3a330b2a34f0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_email_firstmo_unq.first_send_event_month
+	toColumn: LocalDateTable_9b898957-68dc-4844-8976-5e474f2b71a5.Date
+
+relationship cda91e5b-8df8-4efd-9380-aacc1c609572
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_Email.'Month Date'
+	toColumn: LocalDateTable_59c1b1c6-207a-4fd4-8a94-7b5daa243940.Date
+
+relationship 3d60f806-779f-4ee8-8322-2c83bf74ec6e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_email_hourly.event_date
+	toColumn: LocalDateTable_e256bf4b-0e55-45a0-9d58-06314758b4de.Date
+
+relationship 64bdeddc-7594-4116-b570-f03b310bb664
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_email_hourly.InsertDate
+	toColumn: LocalDateTable_3fa1cbff-5283-4e64-a63c-7c7bcd3dc53a.Date
+
+relationship 96b37979-14e8-4f38-99bc-968a9987caec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_email_response_curve.send_date
+	toColumn: LocalDateTable_cc70e8d5-705d-496b-ba99-8e13229e837d.Date
+
+relationship 5c2efea5-feb5-45d0-9359-8fe101e13bdb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: RPT_email_response_curve.'Month Date'
+	toColumn: LocalDateTable_8fe08b82-c163-4cac-889f-30ce08e9f541.Date
+
+relationship b4279dfc-9ee1-41bd-9c5c-d6f44ae9bc58
+	joinOnDateBehavior: datePartOnly
+	fromColumn: EmailRPT_Clicks.'Month Date'
+	toColumn: LocalDateTable_adf65077-e6e5-4ced-834c-80b39300c045.Date
+
+relationship 83181d79-1c68-4717-aa95-27a85120ee29
+	fromColumn: EmailRPT_Clicks.clientid
+	toColumn: vw_Amex_ClientCodes_LookupTable.ClientCode
+
+relationship 26236733-e977-4bb5-8395-2598f73c4ae4
+	fromColumn: RPT_Email.clientid
+	toColumn: vw_Amex_ClientCodes_LookupTable.ClientCode
+
+relationship 2783eb73-b5f5-45fb-beb8-079b8c5b0c87
+	fromColumn: RPT_email_firstmo_unq.clientid
+	toColumn: vw_Amex_ClientCodes_LookupTable.ClientCode
+
+relationship 648900df-683a-43e6-8cd3-689755e020b3
+	fromColumn: RPT_email_hourly.clientsclientid
+	toColumn: vw_Amex_ClientCodes_LookupTable.ClientCode
+
+relationship 39b55f0d-ff8b-4dd9-8d10-2ed8405b10f2
+	fromColumn: RPT_email_response_curve.clientid
+	toColumn: vw_Amex_ClientCodes_LookupTable.ClientCode
+
+relationship 06173c44-eae7-46e1-a2da-779f2471434b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Rpt_Email_Spampage.'Report Date'
+	toColumn: LocalDateTable_797f3d65-8300-440b-a52b-3077b4989d0c.Date
+
+relationship 92105e51-8d5c-4f42-b695-ba3d823435d4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Rpt_Email_Spampage.'Spam Date'
+	toColumn: LocalDateTable_3c0d0f3a-9e3f-4d3e-aba1-114670b63407.Date
+
+relationship b7520315-eb10-4f68-9628-6097b28800e5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Rpt_Email_Spampage.'Delivered Date'
+	toColumn: LocalDateTable_da5de468-2f90-4351-a3c5-011d2903aebe.Date
+
+relationship e50deafc-ed79-078f-75ef-44b397e8f948
+	fromColumn: Rpt_Email_Spampage.ClientId
+	toColumn: vw_Amex_ClientCodes_LookupTable.ClientCode
+
+relationship 35e6b59a-548f-403a-85dd-f7dad6a94423
+	joinOnDateBehavior: datePartOnly
+	fromColumn: vw_DimEmailCostSave.CalendarDate
+	toColumn: LocalDateTable_b54473ba-b5cd-482d-ba30-05cd6623aa62.Date
+

@@ -1,0 +1,45 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.145.1105.0 (25.07)+decbc46fce458c5b8d5109d6f32a743f2ac949c8
+
+annotation PBI_QueryOrder = ["EmailRPT_Clicks","RPT_Email","Definitions","RangeStart","RangeEnd","RPT_email_firstmo_unq","ClientMapping","RPT_email_hourly","RPT_email_response_curve","vw_Amex_ClientCodes_LookupTable","Rpt_Email_Spampage","vw_DimEmailCostSave"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table EmailRPT_Clicks
+ref table DateTableTemplate_e605ec90-3770-48c2-9e4d-510e2a16d20a
+ref table RPT_Email
+ref table 'Select Top N Clients'
+ref table LocalDateTable_b7d67602-3e79-4fd2-bf22-ba79b4e39ede
+ref table Definitions
+ref table LocalDateTable_659c70f7-8713-4a23-ab27-5a2822e81db4
+ref table RPT_email_firstmo_unq
+ref table LocalDateTable_9b898957-68dc-4844-8976-5e474f2b71a5
+ref table LocalDateTable_59c1b1c6-207a-4fd4-8a94-7b5daa243940
+ref table ClientMapping
+ref table RPT_email_hourly
+ref table LocalDateTable_e256bf4b-0e55-45a0-9d58-06314758b4de
+ref table LocalDateTable_3fa1cbff-5283-4e64-a63c-7c7bcd3dc53a
+ref table RPT_email_response_curve
+ref table LocalDateTable_cc70e8d5-705d-496b-ba99-8e13229e837d
+ref table LocalDateTable_8fe08b82-c163-4cac-889f-30ce08e9f541
+ref table LocalDateTable_adf65077-e6e5-4ced-834c-80b39300c045
+ref table vw_Amex_ClientCodes_LookupTable
+ref table Rpt_Email_Spampage
+ref table LocalDateTable_797f3d65-8300-440b-a52b-3077b4989d0c
+ref table Views
+ref table LocalDateTable_3c0d0f3a-9e3f-4d3e-aba1-114670b63407
+ref table LocalDateTable_da5de468-2f90-4351-a3c5-011d2903aebe
+ref table vw_DimEmailCostSave
+ref table LocalDateTable_b54473ba-b5cd-482d-ba30-05cd6623aa62
+
+ref cultureInfo en-US
+

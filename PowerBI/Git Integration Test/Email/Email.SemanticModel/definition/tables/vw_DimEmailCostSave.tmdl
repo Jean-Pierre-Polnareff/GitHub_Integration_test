@@ -1,0 +1,144 @@
+table vw_DimEmailCostSave
+	isHidden
+	lineageTag: 70c4731e-4eb4-447c-8712-b1430a500784
+
+	column 'Email Code'
+		dataType: string
+		isHidden
+		lineageTag: 08f5d089-df23-47af-b9c7-c20d649bc2f5
+		summarizeBy: none
+		sourceColumn: Email Code
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Letter Description'
+		dataType: string
+		isHidden
+		lineageTag: 3f59b9ab-70b3-4a2f-bd4a-1eb391e5bfb3
+		summarizeBy: none
+		sourceColumn: Letter Description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Regulatory/Descretionary
+		dataType: string
+		isHidden
+		lineageTag: b7a4e11e-9932-4ab3-b6ea-d5e23418deba
+		summarizeBy: none
+		sourceColumn: Regulatory/Descretionary
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Save Flag'
+		dataType: string
+		isHidden
+		lineageTag: b76811de-305e-4bd7-993e-45d7bb4c94fc
+		summarizeBy: none
+		sourceColumn: Cost Save Flag
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		isHidden
+		lineageTag: ae21e1a4-26a0-48cb-b605-e988324e1ff9
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column KeySourceSystem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fbb62130-c059-4a0c-b987-86375a09dc2f
+		summarizeBy: sum
+		sourceColumn: KeySourceSystem
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 8a2b1737-4f6d-4fd2-b532-5e820e84dcb7
+		summarizeBy: none
+		sourceColumn: CalendarDate
+
+		variation Variation
+			isDefault
+			relationship: 35e6b59a-548f-403a-85dd-f7dad6a94423
+			defaultHierarchy: LocalDateTable_b54473ba-b5cd-482d-ba30-05cd6623aa62.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Letter Cost'
+		dataType: double
+		isHidden
+		lineageTag: a8a077fe-a2a3-44cb-93e4-22f413896dca
+		summarizeBy: sum
+		sourceColumn: Letter Cost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Email Cost'
+		dataType: double
+		isHidden
+		lineageTag: ef99aa35-7a4b-43d5-9c20-e2cd28b12f63
+		summarizeBy: sum
+		sourceColumn: Email Cost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Cost Save'
+		dataType: double
+		isHidden
+		lineageTag: 3b58a07a-8841-417c-a711-f78fc4854407
+		summarizeBy: sum
+		sourceColumn: Cost Save
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition vw_DimEmailCostSave = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_vw_DimEmailCostSave = Source{[Schema="dbo",Item="vw_DimEmailCostSave"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(dbo_vw_DimEmailCostSave, each Date.IsInYearToDate([CalendarDate]) or Date.IsInPreviousNYears([CalendarDate], 30)),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"CalendarDate", type datetime}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

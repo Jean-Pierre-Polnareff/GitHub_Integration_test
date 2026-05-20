@@ -1,0 +1,473 @@
+table RPT_Email
+	lineageTag: 642589f0-d9b1-4e42-b2b0-8ec7aa47af06
+
+	measure 'Bounce Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[bounced])),CALCULATE(SUM(RPT_Email[sent])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 6b9d877a-274e-4803-84ad-e5f70852da18
+
+	measure 'Delivered Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[delivered])),CALCULATE(SUM(RPT_Email[sent])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 77bfd0c6-89dd-45a9-9073-258bdbdae7fd
+
+	measure 'Open Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[unq_opens])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 6c14d8f7-5c1f-4d7f-9244-11c783d85b70
+
+	measure 'Optout Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[optouts])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 5fc8933c-063b-4e7a-9e42-ed1083fe941f
+
+	measure 'Spam Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[marked_as_spam])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 4c184835-a6b6-406b-9444-a160c6181e24
+
+	measure 'Click Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[clicks])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 586a9a29-59d7-4914-9fb0-f3cf39e399c3
+
+	measure 'Pay Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[payers])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 7e73cbe3-62e6-4953-b21a-d73e8d47d73a
+
+	measure '$ per Delivered' = DIVIDE(CALCULATE(SUM(RPT_Email[payments])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: c29bd086-78ce-456b-a200-b8bbd651658b
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Scrub Rate' =
+			
+			VAR invalidemailscrubbed = Calculate(sum(RPT_Email[invalid_email_scrubbed]))
+			VAR optoutscrubbed = CALCULATE(SUM(RPT_Email[optout_scrubbed]))
+			VAR whitelistscrubbed = CALCULATE(SUM(RPT_Email[whitelist_scrubbed]))
+			VAR requested = CALCULATE(SUM(RPT_Email[requested]))
+			RETURN
+			CALCULATE((invalidemailscrubbed + optoutscrubbed + whitelistscrubbed)/requested)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: b047fa11-260c-4aec-955b-ede75d6faa97
+
+	measure TopN+Others =
+			
+			VAR ClientbySent = RANKX(ALL(RPT_Email[client]),calculate(SUM(RPT_Email[sent])),,DESC,Dense)
+			RETURN
+			IF(ClientbySent <= 'Select Top N Clients'[Select Top N Clients Value] , calculate(SUM(RPT_Email[sent])), BLANK())
+		formatString: 0
+		isHidden
+		lineageTag: ad5d519c-e9a7-4c75-9c9c-308b8b8580d5
+
+	measure 'Top10+Other by Letter' =
+			VAR LettersbySent = RANKX(ALL(RPT_Email[LTR]),calculate(SUM(RPT_Email[sent])),,DESC,Dense)
+			RETURN
+			IF(LettersbySent <= 'Select Top N Clients'[Select Top N Clients Value] , calculate(SUM(RPT_Email[sent])), BLANK())
+		formatString: 0
+		isHidden
+		lineageTag: 0ab2ab65-2ca0-4e91-b84b-88c95f92284a
+
+	measure 'Top10+Other by Domain' =
+			VAR DomainsbySent = RANKX(ALL(RPT_Email[email_domain]),calculate(SUM(RPT_Email[sent])),,DESC,Dense)
+			RETURN
+			IF(DomainsbySent <= 'Select Top N Clients'[Select Top N Clients Value] , calculate(SUM(RPT_Email[sent])), BLANK())
+		formatString: 0
+		isHidden
+		lineageTag: 4269ba26-e665-4e17-afc8-0a72d874afa5
+
+	measure 'Email DateRange' = ```
+			
+			VAR RangeStart = Min(RPT_Email[send_date]) 
+			VAR RangeEnd = Max(RPT_Email[send_date]) 
+			Return
+			CONCATENATE(CONCATENATE(format(RangeStart,"MMM-YY")," - "),format(RangeEnd,"MMM-YY"))
+			```
+		isHidden
+		lineageTag: ba4925d5-fe86-4321-b16e-aba1d728b357
+
+	measure 'Overall Open Rate' = DIVIDE(CALCULATE(SUM(RPT_Email[total_opens])),CALCULATE(SUM(RPT_Email[delivered])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: e4151705-e09b-4747-acbe-48dfb0f7be64
+
+	measure 'Bottom10+Other by Letter' =
+			VAR LettersbySent = RANKX(ALL(RPT_Email[LTR]),calculate(SUM(RPT_Email[sent])),,ASC,Dense)
+			RETURN
+			IF(LettersbySent <= 'Select Top N Clients'[Select Top N Clients Value] , calculate(SUM(RPT_Email[sent])), BLANK())
+		formatString: 0
+		isHidden
+		lineageTag: 8ff3bdb0-d547-4c9f-90ed-3d2f89d37557
+
+	measure 'Email title DateRange' = ```
+			
+			VAR RangeStart = Min(RPT_Email[send_date]) 
+			VAR RangeEnd = Max(RPT_Email[send_date]) 
+			Return
+			----CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd)
+			CONCATENATE("Monthly Email Performance " ,  CONCATENATE(CONCATENATE(format(RangeStart,"MMM-YY")," - "),format(RangeEnd,"MMM-YY")))
+			```
+		isHidden
+		lineageTag: b90af56b-86a5-48ae-8e2d-b580d4fff179
+
+	measure 'Email Daily title DateRange' = ```
+			
+			VAR RangeStart = Min(RPT_Email[send_date]) 
+			VAR RangeEnd = Max(RPT_Email[send_date]) 
+			Return
+			----CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd)
+			CONCATENATE("Daily Email Performance " , CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd))
+			```
+		isHidden
+		lineageTag: b59dd409-6207-43d8-921d-c9f029fd348d
+
+	measure 'Top10+Other by SendDomain' =
+			VAR SendDomainsbySent = RANKX(ALL(RPT_Email[SendDomain]),calculate(SUM(RPT_Email[sent])),,DESC,Dense)
+			RETURN
+			IF(SendDomainsbySent <= 'Select Top N Clients'[Select Top N Clients Value] , calculate(SUM(RPT_Email[sent])), BLANK())
+		formatString: 0
+		isHidden
+		lineageTag: 32e19cf1-7b34-4e02-bf4e-53afa75f1d52
+
+		changedProperty = IsHidden
+
+	measure 'Clicks to Opens' = DIVIDE(CALCULATE(SUM(RPT_Email[clicks])),CALCULATE(SUM(RPT_Email[unq_opens])))
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 6455424e-b38a-4b92-8961-44472538eac2
+
+		changedProperty = FormatString
+
+	column client
+		dataType: string
+		lineageTag: cf04b22a-b0b2-4c3c-99fd-08a0e661e1df
+		summarizeBy: none
+		sourceColumn: client
+
+		annotation SummarizationSetBy = Automatic
+
+	column LTR
+		dataType: string
+		lineageTag: 97286ead-7ddf-4101-877b-d13bc22e19cd
+		summarizeBy: none
+		sourceColumn: LTR
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested
+		dataType: int64
+		formatString: #,0
+		lineageTag: f4357f78-3962-4959-b685-bd3b46df8f3b
+		summarizeBy: sum
+		sourceColumn: requested
+
+		annotation SummarizationSetBy = Automatic
+
+	column whitelist_scrubbed
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5582bd7e-3c7a-4928-af7b-2937a4734077
+		summarizeBy: sum
+		sourceColumn: whitelist_scrubbed
+
+		annotation SummarizationSetBy = Automatic
+
+	column optout_scrubbed
+		dataType: int64
+		formatString: #,0
+		lineageTag: 94c56794-ff28-422f-a092-12c9aa663d6e
+		summarizeBy: sum
+		sourceColumn: optout_scrubbed
+
+		annotation SummarizationSetBy = Automatic
+
+	column invalid_email_scrubbed
+		dataType: int64
+		formatString: #,0
+		lineageTag: df766f8a-2e6d-4688-9e4f-c2835fbc51f9
+		summarizeBy: sum
+		sourceColumn: invalid_email_scrubbed
+
+		annotation SummarizationSetBy = Automatic
+
+	column sent
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9d8d0c52-102f-456f-9913-3d2658efe62b
+		summarizeBy: sum
+		sourceColumn: sent
+
+		annotation SummarizationSetBy = Automatic
+
+	column bounced
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5fb7efe0-4432-4dcd-805f-1eefc27c130d
+		summarizeBy: sum
+		sourceColumn: bounced
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivered
+		dataType: int64
+		formatString: #,0
+		lineageTag: 26a5718a-8e5b-4009-a2d5-700d68c445b9
+		summarizeBy: sum
+		sourceColumn: delivered
+
+		annotation SummarizationSetBy = Automatic
+
+	column unq_opens
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5efe2947-ce6c-4bc0-a5c2-2b841a5f6235
+		summarizeBy: sum
+		sourceColumn: unq_opens
+
+		annotation SummarizationSetBy = Automatic
+
+	column optouts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 362c1f3c-8e8f-49d4-b922-9864207cab2f
+		summarizeBy: sum
+		sourceColumn: optouts
+
+		annotation SummarizationSetBy = Automatic
+
+	column marked_as_spam
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5d4fea75-7b2a-4ec5-9eba-ebe488f0a17c
+		summarizeBy: sum
+		sourceColumn: marked_as_spam
+
+		annotation SummarizationSetBy = Automatic
+
+	column clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: b47abd48-72ac-4a04-95eb-05356e185d62
+		summarizeBy: sum
+		sourceColumn: clicks
+
+		annotation SummarizationSetBy = Automatic
+
+	column payers
+		dataType: int64
+		formatString: #,0
+		lineageTag: c1e42a6a-b3a0-42bf-9a8d-e2d55b04a517
+		summarizeBy: sum
+		sourceColumn: payers
+
+		annotation SummarizationSetBy = Automatic
+
+	column payments
+		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 323aef8b-7895-47d9-ab6c-afc306aa4a45
+		summarizeBy: sum
+		sourceColumn: payments
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Month-Year = FORMAT(RPT_Email[send_date],"MMM-YY")
+		lineageTag: 19eed0ee-d550-4a4b-91f5-c4a164e3b8dc
+		summarizeBy: none
+		sortByColumn: YYYYMM
+
+		annotation SummarizationSetBy = Automatic
+
+	column send_date
+		dataType: dateTime
+		formatString: m/d/yy
+		lineageTag: 6c6690b2-889e-4033-abb0-8f17e0f1dd1d
+		summarizeBy: none
+		sourceColumn: send_date
+
+		variation Variation
+			isDefault
+			relationship: f7f28d9a-1a9c-4720-8e1b-d5239363df46
+			defaultHierarchy: LocalDateTable_b7d67602-3e79-4fd2-bf22-ba79b4e39ede.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column YYYYMM =
+			
+			VAR YYYY= YEAR(RPT_Email[send_date])
+			VAR MM =  FORMAT(RPT_Email[send_date],"mm")
+			RETURN
+			YYYY & MM
+		isHidden
+		lineageTag: 9fe8a32f-c7d1-4e75-a19f-47e38a1b560e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm
+		dataType: string
+		lineageTag: c70fa8bc-4262-4b26-ac5a-46a2902ea877
+		summarizeBy: none
+		sourceColumn: crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column email_domain
+		dataType: string
+		lineageTag: 0a6edcc8-e7ef-4f0c-84fb-9a7d7a28c1c6
+		summarizeBy: none
+		sourceColumn: email_domain
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Date' = STARTOFMONTH(RPT_Email[send_date])
+		isHidden
+		formatString: Short Date
+		lineageTag: 1815b0d9-774d-4957-a699-8d725ccdb47e
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: cda91e5b-8df8-4efd-9380-aacc1c609572
+			defaultHierarchy: LocalDateTable_59c1b1c6-207a-4fd4-8a94-7b5daa243940.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientid
+		dataType: string
+		lineageTag: 408a93c7-3bd4-45a5-86d7-0313108ca336
+		summarizeBy: none
+		sourceColumn: clientid
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: d7a9d4e0-af52-43fb-9628-872d0068b8b7
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 3dee3645-f2a6-493c-9e08-2bf16796c455
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: a99d4c67-e905-4385-941a-9b7f7345cb11
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_opens
+		dataType: int64
+		formatString: #,0
+		sourceProviderType: int
+		lineageTag: 224dc874-d416-4546-bedc-e7c26832ad7e
+		summarizeBy: sum
+		sourceColumn: total_opens
+
+		annotation SummarizationSetBy = Automatic
+
+	column SendDomain
+		dataType: string
+		lineageTag: 5d2d03ad-b944-4c6d-be7e-251859a789a4
+		summarizeBy: none
+		sourceColumn: SendDomain
+
+		annotation SummarizationSetBy = Automatic
+
+	column OfficeID
+		dataType: string
+		lineageTag: 3af6e5d0-93f2-4929-a195-19b2e35e4f2e
+		summarizeBy: none
+		sourceColumn: OfficeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerState
+		dataType: string
+		lineageTag: 89e31eb2-1d38-44e0-84fc-836411c4b7b5
+		summarizeBy: none
+		sourceColumn: CustomerState
+
+		annotation SummarizationSetBy = Automatic
+
+	column Regulatory/Descretionary
+		dataType: string
+		lineageTag: 8756adc4-e0a5-43c7-9b0c-945832d7473c
+		summarizeBy: none
+		sourceColumn: Regulatory/Descretionary
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Save Flag'
+		dataType: string
+		lineageTag: c4348d29-e700-4240-819b-9516fabce8cc
+		summarizeBy: none
+		sourceColumn: Cost Save Flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Letter Cost'
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 07fb5259-3110-4a24-b76b-b0b014a0c9ed
+		summarizeBy: sum
+		sourceColumn: Letter Cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Email Cost'
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: ca623b65-4a4b-4423-b76b-0e67a3898bd4
+		summarizeBy: sum
+		sourceColumn: Email Cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Save'
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 80f26b7f-22cb-4fe4-bdcb-ace699165b2a
+		summarizeBy: sum
+		sourceColumn: Cost Save
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Cost Save $' = RPT_Email[delivered] * RPT_Email[Cost Save]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 9bcfc1ad-b5f6-47e7-a123-9e9c746fd295
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RPT_Email-eed4c159-f45e-41b2-808a-13cce2aff06a = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_RPT_email_daily = Source{[Schema="dbo",Item="RPT_email_daily"]}[Data],
+				    #"Merged Queries" = Table.NestedJoin(dbo_RPT_email_daily, {"clientid", "crm"}, ClientMapping, {"ClientId", "SourceSystem"}, "ClientMapping", JoinKind.LeftOuter),
+				    #"Expanded ClientMapping" = Table.ExpandTableColumn(#"Merged Queries", "ClientMapping", {"ClientParent", "ClientStreamId", "ClientStream"}, {"ClientParent", "ClientStreamId", "ClientStream"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded ClientMapping", {"LTR", "crm", "send_date"}, vw_DimEmailCostSave, {"Email Code", "SourceSystem", "CalendarDate"}, "DimEmailCostSave", JoinKind.LeftOuter),
+				    #"Expanded DimEmailCostSave" = Table.ExpandTableColumn(#"Merged Queries1", "DimEmailCostSave", {"Regulatory/Descretionary", "Cost Save Flag", "Letter Cost", "Email Cost", "Cost Save"}, {"Regulatory/Descretionary", "Cost Save Flag", "Letter Cost", "Email Cost", "Cost Save"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Expanded DimEmailCostSave", each [send_date] >= RangeStart and [send_date] < RangeEnd)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_QueryRelationships = {"columnCount":16,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/EmailRPT_MonthClientLetter/Source.{send_date,0}","Section1/EmailRPT_MonthClientLetter/Source.{client,1}","Section1/EmailRPT_MonthClientLetter/Source.{LTR,2}","Section1/EmailRPT_MonthClientLetter/Source.{requested,3}","Section1/EmailRPT_MonthClientLetter/Source.{whitelist_scrubbed,4}","Section1/EmailRPT_MonthClientLetter/Source.{optout_scrubbed,5}","Section1/EmailRPT_MonthClientLetter/Source.{invalid_email_scrubbed,6}","Section1/EmailRPT_MonthClientLetter/Source.{sent,7}","Section1/EmailRPT_MonthClientLetter/Source.{bounced,8}","Section1/EmailRPT_MonthClientLetter/Source.{delivered,9}","Section1/EmailRPT_MonthClientLetter/Source.{unq_opens,10}","Section1/EmailRPT_MonthClientLetter/Source.{optouts,11}","Section1/EmailRPT_MonthClientLetter/Source.{marked_as_spam,12}","Section1/EmailRPT_MonthClientLetter/Source.{clicks,13}","Section1/EmailRPT_MonthClientLetter/Source.{payers,14}","Section1/EmailRPT_MonthClientLetter/Source.{payments,15}"],"ColumnCount":16,"KeyColumnNames":[],"ColumnIdentities":["Section1/EmailRPT_MonthClientLetter/Source.{send_date,0}","Section1/EmailRPT_MonthClientLetter/Source.{client,1}","Section1/EmailRPT_MonthClientLetter/Source.{LTR,2}","Section1/EmailRPT_MonthClientLetter/Source.{requested,3}","Section1/EmailRPT_MonthClientLetter/Source.{whitelist_scrubbed,4}","Section1/EmailRPT_MonthClientLetter/Source.{optout_scrubbed,5}","Section1/EmailRPT_MonthClientLetter/Source.{invalid_email_scrubbed,6}","Section1/EmailRPT_MonthClientLetter/Source.{sent,7}","Section1/EmailRPT_MonthClientLetter/Source.{bounced,8}","Section1/EmailRPT_MonthClientLetter/Source.{delivered,9}","Section1/EmailRPT_MonthClientLetter/Source.{unq_opens,10}","Section1/EmailRPT_MonthClientLetter/Source.{optouts,11}","Section1/EmailRPT_MonthClientLetter/Source.{marked_as_spam,12}","Section1/EmailRPT_MonthClientLetter/Source.{clicks,13}","Section1/EmailRPT_MonthClientLetter/Source.{payers,14}","Section1/EmailRPT_MonthClientLetter/Source.{payments,15}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,343 @@
+table Rpt_Email_Spampage
+	isHidden
+	lineageTag: a6929865-ff95-4cb6-b7fb-4611d95ece4e
+
+	measure 'Spams DateRange' = ```
+			
+			VAR RangeStart = Min(Rpt_Email_Spampage[Spam Date]) 
+			VAR RangeEnd = Max(Rpt_Email_Spampage[Spam Date]) 
+			Return
+			CONCATENATE(CONCATENATE(RangeStart," - "),RangeEnd)
+			```
+		isHidden
+		lineageTag: ef1c7cdf-1d4f-4d42-b3b0-93ab2c356390
+
+		changedProperty = IsHidden
+
+	column DNA
+		dataType: string
+		isHidden
+		lineageTag: 7f5dc84a-d278-4bb9-a5f2-74011331a570
+		summarizeBy: none
+		sourceColumn: DNA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column InitialBalance
+		dataType: double
+		isHidden
+		lineageTag: 0b5e1c12-e575-4ad0-b348-fe6155556a52
+		summarizeBy: sum
+		sourceColumn: InitialBalance
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CurrentBalance
+		dataType: double
+		isHidden
+		lineageTag: acb7dcdf-7c79-41eb-8a44-0da636c8f90d
+		summarizeBy: sum
+		sourceColumn: CurrentBalance
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CustomerState
+		dataType: string
+		isHidden
+		lineageTag: 843322cf-3401-4b76-b403-a98579886730
+		summarizeBy: none
+		sourceColumn: CustomerState
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthEnd
+		dataType: string
+		isHidden
+		lineageTag: ca03ddf6-527f-4966-b18d-8063ecee17df
+		summarizeBy: none
+		sourceColumn: MonthEnd
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientId
+		dataType: string
+		isHidden
+		lineageTag: 7b015862-4e6c-4e45-9000-e2ee478bd223
+		summarizeBy: none
+		sourceColumn: ClientId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		isHidden
+		lineageTag: 69d4af15-dabb-4494-b447-468c800c791e
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column GUID
+		dataType: string
+		isHidden
+		lineageTag: 30a8f5ae-6f63-4460-8b84-988cdb2903d7
+		summarizeBy: none
+		sourceColumn: GUID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week = ```
+			IF(ISBLANK(Rpt_Email_Spampage[Current Week]),"Other","Current") 
+			```
+		isHidden
+		lineageTag: 63055e7f-e1ce-4d62-9e24-2ab53a16a001
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a6fcdf71-72b2-4fb1-ae3e-96aa3be09834
+		summarizeBy: count
+		sourceColumn: CustomerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CRM
+		dataType: string
+		isHidden
+		lineageTag: 07e82d2a-acca-4326-839e-3523e79154a9
+		summarizeBy: none
+		sourceColumn: CRM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Send Domain'
+		dataType: string
+		isHidden
+		lineageTag: bc6964dc-6f6c-4fd6-9c96-100c560f8e90
+		summarizeBy: none
+		sourceColumn: Send Domain
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		isHidden
+		lineageTag: 8b4a6a79-8246-49a6-ab67-ab46ec88c966
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Week'
+		dataType: string
+		isHidden
+		lineageTag: 893e7bca-47cf-4e43-83d2-11d3bfbe8bb9
+		summarizeBy: none
+		sourceColumn: Current Week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Spam Count'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: ceee92c6-b5ea-4dba-9ae5-c29822f4d557
+		summarizeBy: sum
+		sourceColumn: Spam Count
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Spam Year'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 54c80a71-59c5-48ca-b9b5-b896d5cbc913
+		summarizeBy: sum
+		sourceColumn: Spam Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Spam Quarter'
+		dataType: string
+		isHidden
+		lineageTag: 34c19d37-2d94-4fe5-94ef-c4dbc452043b
+		summarizeBy: none
+		sourceColumn: Spam Quarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Report Date'
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: ed51e0a8-b342-444e-a650-3545f1de072a
+		summarizeBy: none
+		sourceColumn: Report Date
+
+		variation Variation
+			isDefault
+			relationship: 06173c44-eae7-46e1-a2da-779f2471434b
+			defaultHierarchy: LocalDateTable_797f3d65-8300-440b-a52b-3077b4989d0c.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Spam Month'
+		dataType: string
+		isHidden
+		lineageTag: 6f23ceb7-6dcb-42a2-8e7c-4445a76d094a
+		summarizeBy: none
+		sourceColumn: Spam Month
+		sortByColumn: 'Month Number'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Spam Date'
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 3fcfc01b-59b5-4d3e-936f-7e899a6ee21b
+		summarizeBy: none
+		sourceColumn: Spam Date
+
+		variation Variation
+			isDefault
+			relationship: 92105e51-8d5c-4f42-b695-ba3d823435d4
+			defaultHierarchy: LocalDateTable_3c0d0f3a-9e3f-4d3e-aba1-114670b63407.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Delivered Date'
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 5c32a992-2728-4cdc-a402-b73ad229c791
+		summarizeBy: none
+		sourceColumn: Delivered Date
+
+		variation Variation
+			isDefault
+			relationship: b7520315-eb10-4f68-9628-6097b28800e5
+			defaultHierarchy: LocalDateTable_da5de468-2f90-4351-a3c5-011d2903aebe.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Report Week'
+		dataType: string
+		isHidden
+		lineageTag: 409f5721-9710-4721-9ed9-4afb6739474f
+		summarizeBy: none
+		sourceColumn: Report Week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Letter
+		dataType: string
+		isHidden
+		lineageTag: 1d7f96e1-d934-47b1-b95f-cae403575128
+		summarizeBy: none
+		sourceColumn: Letter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number' = MONTH(Rpt_Email_Spampage[Spam Date])
+		isHidden
+		formatString: 0
+		lineageTag: 2c49406b-dfa1-4f80-8927-9afc00fda829
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		isHidden
+		lineageTag: beac371f-5d39-47e5-8791-666fa443cdb2
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OfficeID
+		dataType: string
+		isHidden
+		lineageTag: 309db126-27e5-436d-90bf-178d0800aa57
+		summarizeBy: none
+		sourceColumn: OfficeID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Rpt_Email_Spampage = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS", [Query="SELECT [GUID]#(lf)      ,[LTR] AS [Letter]#(lf)      ,[DNA]#(lf)      ,[FileNumber] AS [CustomerID]#(lf)      ,[SourceSystem]  AS [CRM]#(lf)      ,[DomainName] AS [Send Domain]#(lf)      ,[Spam_date] AS [Spam Date]#(lf)      ,[Delivered_date] AS [Delivered Date]#(lf)      ,[ClientStream]#(lf)      ,[InitialBalance]#(lf)      ,[CurrentBalance]#(lf)      ,[CustomerState]#(lf)      ,[Spam_Count] AS [Spam Count]#(lf)      ,[Spam_Year] AS [Spam Year]#(lf)      ,[Spam_Quarter] AS [Spam Quarter]#(lf)      ,[MonthEnd]#(lf)      ,[Report_Date] AS [Report Date]#(lf)      ,[ClientId]#(lf)      ,[ClientParent]#(lf)      ,[asCrWeekV] AS [Current Week]#(lf)      ,FORMAT([ReportWeek],'yy-MM-dd') [Report Week]#(lf)#(tab)  ,CASE WHEN MONTH([Spam_date])=1 THEN 'Jan'#(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=2 THEN 'Feb' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=3 THEN 'Mar' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=4 THEN 'Apr' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=5 THEN 'May' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=6 THEN 'Jun' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=7 THEN 'Jul' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=8 THEN 'Aug' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=9 THEN 'Sep' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=10 THEN 'Oct' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=11 THEN 'Nov' #(lf)#(tab)#(tab)#(tab)WHEN MONTH([Spam_date])=12 THEN 'Dec' #(lf)#(tab)#(tab)#(tab)END AS [Spam Month]#(lf)     ,[ClientStreamId]#(lf)     ,[OfficeID]#(lf)#(lf)  FROM [dbo].[Rpt_Email_Spampage] (NOLOCK)#(lf)"])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

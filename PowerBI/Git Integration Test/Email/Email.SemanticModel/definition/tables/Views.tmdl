@@ -1,0 +1,54 @@
+table Views
+	isHidden
+	lineageTag: de460822-881b-46f0-bbee-058270e3f042
+
+	column Views
+		isHidden
+		lineageTag: ee702a27-eff5-4b6a-a742-3dd6bdb3e5b0
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Views Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Views Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Views Fields'
+		isHidden
+		lineageTag: 6bbc5211-dbe5-4665-bdbf-cfd0b1d5bc99
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Views Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Views Order'
+		isHidden
+		formatString: 0
+		lineageTag: af690403-2d4c-4ece-8cad-970f66ea559e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Views = calculated
+		mode: import
+		source =
+				{
+				    ("Letter", NAMEOF('Rpt_Email_Spampage'[Letter]), 0),
+				    ("CRM", NAMEOF('Rpt_Email_Spampage'[CRM]), 1),
+				    ("Send Domain", NAMEOF('Rpt_Email_Spampage'[Send Domain]), 2),
+				    ("Client Stream", NAMEOF('Rpt_Email_Spampage'[ClientStream]), 3),
+				    ("Report Week", NAMEOF('Rpt_Email_Spampage'[Report Week]), 4),
+				    ("Spam Month", NAMEOF('Rpt_Email_Spampage'[Spam Month]), 5)
+				}
+
+	annotation PBI_Id = 8da906d5898d4634b0465f2f710d0f8a
+

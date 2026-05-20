@@ -1,0 +1,112 @@
+table ClientMapping
+	isHidden
+	lineageTag: 0575c249-86c1-45e7-8791-4becb78c8dcc
+
+	column ClientId
+		dataType: string
+		isHidden
+		lineageTag: 40cae871-3cc8-4f21-aaba-022389ed9d09
+		summarizeBy: none
+		sourceColumn: ClientId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent
+		dataType: string
+		isHidden
+		lineageTag: d5915f00-0648-490c-888f-a9973a75736d
+		summarizeBy: none
+		sourceColumn: ClientParent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStreamId
+		dataType: string
+		isHidden
+		lineageTag: 078787ef-d679-4756-b4f3-de8515a37599
+		summarizeBy: none
+		sourceColumn: ClientStreamId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientStream
+		dataType: string
+		isHidden
+		lineageTag: ae4c58c2-1cb1-4413-9ac5-d1c8e589641f
+		summarizeBy: none
+		sourceColumn: ClientStream
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		isHidden
+		lineageTag: f7d9e59e-a34f-4c21-b584-f574c30bfc39
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem2
+		dataType: string
+		lineageTag: 8fe03d7d-c9d2-42bf-8d76-2591a2fd0792
+		summarizeBy: none
+		sourceColumn: SourceSystem2
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientParent_new
+		dataType: string
+		lineageTag: b2de5aee-3654-4bee-807f-8ef033d5eac5
+		summarizeBy: none
+		sourceColumn: ClientParent_new
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaperTypeGrouping
+		dataType: string
+		lineageTag: 55471a44-5e5d-4aff-bb98-21933580fbe8
+		summarizeBy: none
+		sourceColumn: PaperTypeGrouping
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClientSegmentationGroup
+		dataType: string
+		lineageTag: 4c73ea8c-a840-436d-8090-5a7481c2394b
+		summarizeBy: none
+		sourceColumn: ClientSegmentationGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column OfficeID
+		dataType: string
+		lineageTag: 238a05b5-3127-4bb6-8e36-ceb0a98e2a52
+		summarizeBy: none
+		sourceColumn: OfficeID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ClientMapping-eb276a06-36be-4e77-82c6-c3ba94177311 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("dfw2-bisql-001", "client_analytics"),
+				    dbo_vw_ClientMapping_MergeGroups = Source{[Schema="dbo",Item="vw_ClientMapping_MergeGroups"]}[Data]
+				in
+				    dbo_vw_ClientMapping_MergeGroups
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

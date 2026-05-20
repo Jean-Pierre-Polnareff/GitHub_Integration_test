@@ -1,0 +1,67 @@
+table Definitions
+	isHidden
+	lineageTag: b42facfc-04a4-4ce5-ac41-2bc61610ef12
+
+	column Table
+		dataType: string
+		isHidden
+		lineageTag: 65e1a6a3-d8aa-4bac-beeb-7f53b1ae2d6b
+		summarizeBy: none
+		sourceColumn: Table
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Field
+		dataType: string
+		isHidden
+		lineageTag: 7942aa20-c418-467d-9e85-9e7f9cf23951
+		summarizeBy: none
+		sourceColumn: Field
+		sortByColumn: Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Definition
+		dataType: string
+		isHidden
+		lineageTag: 8ea147a1-2522-4c06-8362-4f4589e054ae
+		summarizeBy: none
+		sourceColumn: Definition
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 85b5368e-d7ba-48d7-a88a-b94b2db0c1f7
+		summarizeBy: sum
+		sourceColumn: Order
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Definitions-e22b7c5d-9a0c-4a0c-ac30-5c1d21bc35f6 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("jZRRT9swEMe/yqka0qaBRsIY8LiVTZrERkU78YB4cBLTWiS2Zzup8u13jpPGiZuwpzbn+//OvvvbT0+LjZBwRyuaL04Xd9QYqvDP94KwHFJFiWEVhYoqzQQHTbkBIyAVXJcFBjE1WjyfDikP9G9JtaHZAUSyTFGtqUZCTlNcghehICWFJGzLMS8OKI87ZmjOtIF1qsok6XFIaSMNhQt+tu+SMUabkpnAH243eBGg76UR5ZvchDK+BSEt06aLF3/DnwPqT16RnGXgjvxf8IJp3RRRwJw6r+1yQYxr32VQZY0j8Jju60uQ9k2UPPWrJ4fAVZB8i63DEfvpmRe6DgR/OMMRw72kvMlYIrxpULvQQtw6SKpgWWojisZbN+E8sBLJ8563EYbkQ4p12nmg/E334Kap+73jyGxTzU6JcrvDX6b9yUWhY38R9YobJRrWkhQ9qTjENcaniaF7lzlLX709pfbbnSL044rU7i59TVPbSQ2S1PYIe4alOESXkJFa2wY7c+PYG1RoQkQV6Ant/YWkBtKB3yIeMZy1LTwQQ/HjfXgr4SOM7hNGjt+FD/AJ/MchmvJtV651Mcpa20cz5u1EfaCXzVq4Ew5cjWL/WkTzru0QQyePGHHo37Zzrdpz81gaetY6tRMO/TvWTrizEzurjkWhS9s8fP7t6bSvHL8H8VFjdgWd3ccFQ+e9a14OP+lg6ZHW+cid6pYa9Fy3O+zKI00060+KEcbxENKxQAqFj42lXM1RVopVJK1hJTBQewuIqhgOTrYJskuIr+d4PzbLIQQDuKet3Wd8c0x50lxeaKJTY7s4P66c7kUbGXOiec5kN4YLY2o8Tx32xDZkpEdTPv8D", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Table = _t, Field = _t, Definition = _t, Order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Table", type text}, {"Field", type text}, {"Definition", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":4,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Definitions/Changed Type.{Table,0}","Section1/Definitions/Changed Type.{Field,1}","Section1/Definitions/Changed Type.{Definition,2}","Section1/Definitions/Source.{Order,3}"],"ColumnCount":4,"KeyColumnNames":[],"ColumnIdentities":["Section1/Definitions/Changed Type.{Table,0}","Section1/Definitions/Changed Type.{Field,1}","Section1/Definitions/Changed Type.{Definition,2}","Section1/Definitions/Source.{Order,3}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
