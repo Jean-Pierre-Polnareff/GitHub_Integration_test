@@ -24,15 +24,24 @@ jobs:
 
           CHANGES=$(git diff --name-status -M $SINCE HEAD \
           | awk '
+            function extract(path,   arr) {
+              # Match .pbip file directly: PowerBI/<workspace>/<report>/<file>.pbip
+              if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip$/, arr)) {
+                return arr[1] "/" arr[2]
+              }
+              # Match anything inside the report or semantic model folders: PowerBI/<workspace>/<report>/...
+              if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\//, arr)) {
+                return arr[1] "/" arr[2]
+              }
+              return ""
+            }
             {
               status = $1
 
               if (status ~ /^R/) {
-                match($2, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, old_arr)
-                match($3, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, new_arr)
-                if (old_arr[1] != "" && new_arr[1] != "") {
-                  old_key = old_arr[1] "/" old_arr[2]
-                  new_key = new_arr[1] "/" new_arr[2]
+                old_key = extract($2)
+                new_key = extract($3)
+                if (old_key != "" && new_key != "") {
                   match(status, /^R([0-9]+)/, score_arr)
                   similarity = score_arr[1] + 0
                   if (similarity == 100)
@@ -43,9 +52,8 @@ jobs:
               }
 
               else if (status ~ /^[AMD]/) {
-                match($2, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, arr)
-                if (arr[1] != "") {
-                  folder = arr[1] "/" arr[2]
+                folder = extract($2)
+                if (folder != "") {
                   if (!(folder in statuses)) statuses[folder] = status
                   else if (statuses[folder] != status) statuses[folder] = "M"
                 }
@@ -69,7 +77,7 @@ jobs:
             exit 0
           fi
 
-          LOG_FILE="changelog.md"
+          LOG_FILE="pbip-changelog.md"
           touch $LOG_FILE
 
           python3 - <<EOF
@@ -79,7 +87,7 @@ jobs:
           date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
           new_changes = """$CHANGES"""
 
-          with open("changelog.md", "r") as f:
+          with open("pbip-changelog.md", "r") as f:
               content = f.read()
 
           sections = re.split(r'(?=^## \d{4}-\d{2}-\d{2})', content, flags=re.MULTILINE)
@@ -94,7 +102,7 @@ jobs:
 
           trimmed = sections[:30]
 
-          with open("changelog.md", "w") as f:
+          with open("pbip-changelog.md", "w") as f:
               f.write("\n".join(trimmed).strip() + "\n")
           EOF
 
