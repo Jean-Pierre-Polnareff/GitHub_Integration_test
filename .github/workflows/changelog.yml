@@ -16,11 +16,10 @@ jobs:
       - name: Detect and log PBIP changes
         id: detect
         run: |
-          SINCE=$(git log --before="24 hours ago" --format="%H" | head -1)
-
-          if [ -z "$SINCE" ]; then
-            echo "No commits older than 24hrs, skipping."
-            exit 0
+          if git rev-parse refs/tags/pbip-changelog-last-run > /dev/null 2>&1; then
+            SINCE=$(git rev-parse refs/tags/pbip-changelog-last-run)
+          else
+            SINCE=$(git rev-list --max-parents=0 HEAD)
           fi
 
           CHANGES=$(git diff --name-status -M $SINCE HEAD \
@@ -66,7 +65,7 @@ jobs:
           ')
 
           if [ -z "$CHANGES" ]; then
-            echo "No PBIP changes in last 24hrs, skipping."
+            echo "No PBIP changes, skipping."
             exit 0
           fi
 
@@ -100,6 +99,12 @@ jobs:
           EOF
 
           echo "has_changes=true" >> $GITHUB_OUTPUT
+
+      - name: Update last run tag
+        if: steps.detect.outputs.has_changes == 'true'
+        run: |
+          git tag -f pbip-changelog-last-run HEAD
+          git push origin refs/tags/pbip-changelog-last-run --force
 
       - name: Commit log
         if: steps.detect.outputs.has_changes == 'true'
