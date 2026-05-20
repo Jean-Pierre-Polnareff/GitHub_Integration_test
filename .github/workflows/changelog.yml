@@ -1,9 +1,9 @@
 name: PBIP Change Log
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # midnight UTC daily
-  workflow_dispatch:      # allows manual trigger
+  push:
+    branches:
+      - main
 
 jobs:
   log-changes:
@@ -16,20 +16,20 @@ jobs:
       - name: Detect and log PBIP changes
         id: detect
         run: |
-          if git rev-parse refs/tags/pbip-changelog-last-run > /dev/null 2>&1; then
-            SINCE=$(git rev-parse refs/tags/pbip-changelog-last-run)
-          else
+          SINCE=${{ github.event.before }}
+          NOW=${{ github.event.after }}
+
+          # Handle first ever push where before is all zeros
+          if [ "$SINCE" = "0000000000000000000000000000000000000000" ]; then
             SINCE=$(git rev-list --max-parents=0 HEAD)
           fi
 
-          CHANGES=$(git diff --name-status -M $SINCE HEAD \
+          CHANGES=$(git diff --name-status -M $SINCE $NOW \
           | awk '
             function extract(path,   arr) {
-              # Match .pbip file directly: PowerBI/<workspace>/<report>/<file>.pbip
               if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip$/, arr)) {
                 return arr[1] "/" arr[2]
               }
-              # Match anything inside the report or semantic model folders: PowerBI/<workspace>/<report>/...
               if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\//, arr)) {
                 return arr[1] "/" arr[2]
               }
@@ -73,7 +73,7 @@ jobs:
           ')
 
           if [ -z "$CHANGES" ]; then
-            echo "No PBIP changes, skipping."
+            echo "No PBIP changes in this push, skipping."
             exit 0
           fi
 
@@ -107,12 +107,6 @@ jobs:
           EOF
 
           echo "has_changes=true" >> $GITHUB_OUTPUT
-
-      - name: Update last run tag
-        if: steps.detect.outputs.has_changes == 'true'
-        run: |
-          git tag -f pbip-changelog-last-run HEAD
-          git push origin refs/tags/pbip-changelog-last-run --force
 
       - name: Commit log
         if: steps.detect.outputs.has_changes == 'true'
