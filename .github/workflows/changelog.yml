@@ -1,0 +1,103 @@
+name: PBIP Change Log
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # midnight UTC daily
+
+jobs:
+  log-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect and log PBIP changes
+        run: |
+          SINCE=$(git log --before="24 hours ago" --format="%H" | head -1)
+
+          if [ -z "$SINCE" ]; then
+            echo "No commits older than 24hrs, skipping."
+            exit 0
+          fi
+
+          CHANGES=$(git diff --name-status -M $SINCE HEAD \
+          | awk '
+            {
+              status = $1
+
+              if (status ~ /^R/) {
+                # Extract workspace/report from old path ($2) and new path ($3)
+                match($2, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, old_arr)
+                match($3, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, new_arr)
+                if (old_arr[1] != "" && new_arr[1] != "") {
+                  old_key = old_arr[1] "/" old_arr[2]
+                  new_key = new_arr[1] "/" new_arr[2]
+                  match(status, /^R([0-9]+)/, score_arr)
+                  similarity = score_arr[1] + 0
+                  if (similarity == 100)
+                    renames[old_key] = "RENAMED: " old_key " -> " new_key
+                  else
+                    renames[old_key] = "RENAMED & MODIFIED: " old_key " -> " new_key
+                }
+              }
+
+              else if (status ~ /^[AMD]/) {
+                match($2, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, arr)
+                if (arr[1] != "") {
+                  folder = arr[1] "/" arr[2]
+                  if (!(folder in statuses)) statuses[folder] = status
+                  else if (statuses[folder] != status) statuses[folder] = "M"
+                }
+              }
+            }
+            END {
+              for (old in renames) print renames[old]
+              for (folder in statuses) {
+                if (folder in renames) continue
+                s = statuses[folder]
+                if (s == "A") label = "CREATED"
+                else if (s == "D") label = "DELETED"
+                else label = "MODIFIED"
+                print label ": " folder
+              }
+            }
+          ')
+
+          if [ -z "$CHANGES" ]; then
+            echo "No PBIP changes in last 24hrs, skipping."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          NEW_ENTRY="## $DATE\n\n$CHANGES\n\n---"
+
+          LOG_FILE="pbip-changelog.md"
+
+          if [ -f "$LOG_FILE" ]; then
+            echo -e "$NEW_ENTRY\n\n$(cat $LOG_FILE)" > $LOG_FILE
+          else
+            echo -e "$NEW_ENTRY" > $LOG_FILE
+          fi
+
+          python3 - <<'EOF'
+          import re
+
+          with open("pbip-changelog.md", "r") as f:
+              content = f.read()
+
+          sections = re.split(r'(?=^## \d{4}-\d{2}-\d{2})', content, flags=re.MULTILINE)
+          sections = [s for s in sections if s.strip()]
+          trimmed = sections[:30]
+
+          with open("pbip-changelog.md", "w") as f:
+              f.write("\n".join(trimmed).strip() + "\n")
+          EOF
+
+      - name: Commit log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pbip-changelog.md
+          git diff --staged --quiet || git commit -m "chore: update PBIP changelog $(date -u +%Y-%m-%d)"
+          git push
