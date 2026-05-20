@@ -102,7 +102,6 @@ jobs:
           date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
           raw_changes = """$CHANGES"""
 
-          # Parse incoming changes into dict: report -> status
           incoming = {}
           for line in raw_changes.strip().split("\n"):
               parts = line.split("|")
@@ -117,7 +116,6 @@ jobs:
           sections = [s for s in sections if s.strip()]
 
           if sections and sections[0].startswith(f"## {date}"):
-              # Parse existing today's entries
               existing = {}
               for line in sections[0].split("\n"):
                   line = line.strip()
@@ -128,7 +126,6 @@ jobs:
                       if status in ("CREATED", "MODIFIED", "DELETED"):
                           existing[name] = status
 
-              # Merge using priority matrix
               for report, new_status in incoming.items():
                   if report not in existing:
                       existing[report] = new_status
@@ -137,15 +134,12 @@ jobs:
                       if ex_status == "CREATED":
                           if new_status == "DELETED":
                               existing[report] = "DELETED"
-                          # CREATED + MODIFIED stays CREATED
                       elif ex_status == "MODIFIED":
                           if new_status == "DELETED":
                               existing[report] = "DELETED"
-                          # MODIFIED + MODIFIED stays MODIFIED
                       elif ex_status == "DELETED":
                           if new_status == "CREATED":
                               existing[report] = "CREATED"
-                          # DELETED + DELETED stays DELETED
 
               lines = [f"{status}: {report}" for report, status in existing.items()]
               sections[0] = f"## {date}\n\n" + "\n".join(lines) + "\n\n---\n"
@@ -170,4 +164,56 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add changelog.md
           git diff --staged --quiet || git commit -m "chore: update changelog $(date -u +%Y-%m-%d)"
+          git push
+
+  docs:
+    needs: changelog
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: main
+
+      - name: Checkout wiki repo
+        uses: actions/checkout@v4
+        with:
+          repository: Jean-Pierre-Polnareff/GitHub_Integration_Test.wiki
+          token: ${{ secrets.WIKI_TOKEN }}
+          path: wiki
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pymupdf
+
+      - name: Generate docs
+        run: |
+          cd main
+          python generate_docs.py \
+            --main-repo "." \
+            --wiki-repo "../wiki" \
+            --powerbi-root "PowerBI"
+
+      - name: Commit PDF deletions to main repo
+        run: |
+          cd main
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: remove processed PDFs $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Push wiki repo
+        run: |
+          cd wiki
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: update docs $(date -u +%Y-%m-%d)"
           git push
