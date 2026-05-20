@@ -1,0 +1,219 @@
+name: Deploy PBIP to Power BI and Update Changelog
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          allow-no-subscriptions: true
+
+      - name: Install fabric-cicd
+        run: pip install fabric-cicd
+
+      - name: Get changed workspaces
+        id: changes
+        run: |
+          FILES=$(git diff --name-only HEAD~1 | tr '\n' ',')
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Deploy Git Integration Test
+        if: contains(steps.changes.outputs.files, 'Git Integration Test/')
+        run: python deploy.py --workspace_name "Git Integration Test"
+
+  changelog:
+    needs: deploy
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect and log PBIP changes
+        id: detect
+        run: |
+          SINCE=${{ github.event.before }}
+          NOW=${{ github.event.after }}
+
+          if [ "$SINCE" = "0000000000000000000000000000000000000000" ]; then
+            SINCE=$(git rev-list --max-parents=0 HEAD)
+          fi
+
+          CHANGES=$(git diff --name-status -M $SINCE $NOW \
+          | awk -F'\t' '
+            function extract(path,   arr) {
+              if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip$/, arr)) {
+                return arr[1] "/" arr[2]
+              }
+              if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\//, arr)) {
+                return arr[1] "/" arr[2]
+              }
+              return ""
+            }
+            {
+              status = $1
+
+              if (status ~ /^R/) {
+                old_key = extract($2)
+                new_key = extract($3)
+                if (old_key != "" && new_key != "") {
+                  match(status, /^R([0-9]+)/, score_arr)
+                  similarity = score_arr[1] + 0
+                  if (similarity == 100)
+                    current_status = "RENAMED"
+                  else
+                    current_status = "RENAMED & MODIFIED"
+                  changes[old_key] = current_status "|" old_key "|" new_key
+                }
+              }
+
+              else if (status ~ /^[AMD]/) {
+                folder = extract($2)
+                if (folder != "") {
+                  if (status == "A") current_status = "CREATED"
+                  else if (status == "D") current_status = "DELETED"
+                  else current_status = "MODIFIED"
+                  changes[folder] = current_status "|" folder "|" folder
+                }
+              }
+            }
+            END {
+              for (folder in changes) print changes[folder]
+            }
+          ')
+
+          if [ -z "$CHANGES" ]; then
+            echo "No PBIP changes in this push, skipping."
+            exit 0
+          fi
+
+          LOG_FILE="changelog.md"
+          touch $LOG_FILE
+
+          python3 - <<EOF
+          import re
+          from datetime import datetime, timezone
+
+          date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+          raw_changes = """$CHANGES"""
+
+          incoming = {}
+          for line in raw_changes.strip().split("\n"):
+              parts = line.split("|")
+              if len(parts) == 3:
+                  status, old_name, new_name = parts
+                  incoming[old_name] = (status, old_name, new_name)
+
+          with open("changelog.md", "r") as f:
+              content = f.read()
+
+          sections = re.split(r'(?=^## \d{4}-\d{2}-\d{2})', content, flags=re.MULTILINE)
+          sections = [s for s in sections if s.strip()]
+
+          if sections and sections[0].startswith(f"## {date}"):
+              today_section = sections[0]
+              existing = {}
+              for line in today_section.split("\n"):
+                  line = line.strip()
+                  if line.startswith("RENAMED & MODIFIED:"):
+                      parts = line[len("RENAMED & MODIFIED:"):].strip().split(" -> ")
+                      if len(parts) == 2:
+                          existing[parts[0].strip()] = ("RENAMED & MODIFIED", parts[0].strip(), parts[1].strip())
+                  elif line.startswith("RENAMED:"):
+                      parts = line[len("RENAMED:"):].strip().split(" -> ")
+                      if len(parts) == 2:
+                          existing[parts[0].strip()] = ("RENAMED", parts[0].strip(), parts[1].strip())
+                  elif ":" in line and not line.startswith("#") and not line.startswith("-"):
+                      status, name = line.split(":", 1)
+                      name = name.strip()
+                      if status.strip() in ("CREATED", "MODIFIED", "DELETED"):
+                          existing[name] = (status.strip(), name, name)
+
+              for old_key, (new_status, new_old, new_new) in incoming.items():
+                  match_key = None
+                  for ex_key in existing:
+                      ex_status, ex_old, ex_new = existing[ex_key]
+                      if ex_new == old_key or ex_old == old_key or ex_new == new_new:
+                          match_key = ex_key
+                          break
+
+                  if match_key is None:
+                      existing[old_key] = (new_status, new_old, new_new)
+                  else:
+                      ex_status, ex_old, ex_new = existing[match_key]
+
+                      if ex_status == "CREATED":
+                          if new_status == "DELETED":
+                              existing[match_key] = ("DELETED", ex_old, ex_old)
+                          elif new_status in ("RENAMED", "RENAMED & MODIFIED"):
+                              existing[match_key] = ("CREATED", ex_old, new_new)
+                      elif ex_status == "DELETED":
+                          if new_status == "CREATED":
+                              existing[match_key] = ("CREATED", ex_old, new_new)
+                      else:
+                          if new_status == "DELETED":
+                              existing[match_key] = ("DELETED", ex_old, ex_old)
+                          elif new_status in ("RENAMED", "RENAMED & MODIFIED") or ex_status in ("RENAMED", "RENAMED & MODIFIED"):
+                              existing[match_key] = ("RENAMED & MODIFIED", ex_old, new_new)
+                          else:
+                              existing[match_key] = (new_status, new_old, new_new)
+
+              lines = []
+              for key, (status, old_name, new_name) in existing.items():
+                  if status in ("RENAMED", "RENAMED & MODIFIED"):
+                      lines.append(f"{status}: {old_name} -> {new_name}")
+                  elif status == "CREATED" and old_name != new_name:
+                      lines.append(f"CREATED: {new_name}")
+                  else:
+                      lines.append(f"{status}: {old_name}")
+
+              sections[0] = f"## {date}\n\n" + "\n".join(lines) + "\n\n---\n"
+
+          else:
+              lines = []
+              for old_key, (status, old_name, new_name) in incoming.items():
+                  if status in ("RENAMED", "RENAMED & MODIFIED"):
+                      lines.append(f"{status}: {old_name} -> {new_name}")
+                  elif status == "CREATED" and old_name != new_name:
+                      lines.append(f"CREATED: {new_name}")
+                  else:
+                      lines.append(f"{status}: {old_name}")
+
+              new_entry = f"## {date}\n\n" + "\n".join(lines) + "\n\n---\n"
+              sections.insert(0, new_entry)
+
+          trimmed = sections[:30]
+
+          with open("changelog.md", "w") as f:
+              f.write("\n".join(trimmed).strip() + "\n")
+          EOF
+
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit changelog
+        if: steps.detect.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add changelog.md
+          git diff --staged --quiet || git commit -m "chore: update changelog $(date -u +%Y-%m-%d)"
+          git push
