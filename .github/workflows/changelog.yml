@@ -19,10 +19,18 @@ jobs:
           SINCE=${{ github.event.before }}
           NOW=${{ github.event.after }}
 
-          # Handle first ever push where before is all zeros
           if [ "$SINCE" = "0000000000000000000000000000000000000000" ]; then
             SINCE=$(git rev-list --max-parents=0 HEAD)
           fi
+
+          echo "=== SINCE: $SINCE ==="
+          echo "=== NOW: $NOW ==="
+          echo "=== Raw diff ==="
+          git diff --name-status -M $SINCE $NOW
+          echo "=== End diff ==="
+          echo "=== Diff through awk ==="
+          git diff --name-status -M $SINCE $NOW | awk '{ print "LINE: [" $0 "]" }'
+          echo "=== End awk ==="
 
           CHANGES=$(git diff --name-status -M $SINCE $NOW \
           | awk '
@@ -71,6 +79,10 @@ jobs:
               }
             }
           ')
+
+          echo "=== CHANGES ==="
+          echo "$CHANGES"
+          echo "=== End CHANGES ==="
 
           if [ -z "$CHANGES" ]; then
             echo "No PBIP changes in this push, skipping."
