@@ -29,8 +29,8 @@ jobs:
               status = $1
 
               if (status ~ /^R/) {
-                match($2, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, old_arr)
-                match($3, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, new_arr)
+                match($2, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, old_arr)
+                match($3, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, new_arr)
                 if (old_arr[1] != "" && new_arr[1] != "") {
                   old_key = old_arr[1] "/" old_arr[2]
                   new_key = new_arr[1] "/" new_arr[2]
@@ -44,7 +44,7 @@ jobs:
               }
 
               else if (status ~ /^[AMD]/) {
-                match($2, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, arr)
+                match($2, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, arr)
                 if (arr[1] != "") {
                   folder = arr[1] "/" arr[2]
                   if (!(folder in statuses)) statuses[folder] = status
@@ -70,7 +70,7 @@ jobs:
             exit 0
           fi
 
-          LOG_FILE="pbip-changelog.md"
+          LOG_FILE="changelog.md"
           touch $LOG_FILE
 
           python3 - <<EOF
@@ -80,7 +80,7 @@ jobs:
           date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
           new_changes = """$CHANGES"""
 
-          with open("pbip-changelog.md", "r") as f:
+          with open("changelog.md", "r") as f:
               content = f.read()
 
           sections = re.split(r'(?=^## \d{4}-\d{2}-\d{2})', content, flags=re.MULTILINE)
@@ -95,7 +95,7 @@ jobs:
 
           trimmed = sections[:30]
 
-          with open("pbip-changelog.md", "w") as f:
+          with open("changelog.md", "w") as f:
               f.write("\n".join(trimmed).strip() + "\n")
           EOF
 
