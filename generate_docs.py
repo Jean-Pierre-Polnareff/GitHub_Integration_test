@@ -367,7 +367,7 @@ def extract_existing_descriptions(md_path: Path):
      page_blocks = re.findall(
       r"###\s+(.+?)\n!\[.*?\]\(.*?\)\n\n(.*?)(?=\n###|\n##|\Z)",
       content, re.DOTALL
-      )
+    )
     for page_name, desc_block in page_blocks:
         desc = desc_block.strip()
         if desc and desc != "_Add page description here._":
