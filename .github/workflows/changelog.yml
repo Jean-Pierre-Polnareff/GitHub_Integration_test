@@ -3,6 +3,7 @@ name: PBIP Change Log
 on:
   schedule:
     - cron: '0 0 * * *'  # midnight UTC daily
+  workflow_dispatch:      # allows manual trigger
 
 jobs:
   log-changes:
@@ -27,7 +28,6 @@ jobs:
               status = $1
 
               if (status ~ /^R/) {
-                # Extract workspace/report from old path ($2) and new path ($3)
                 match($2, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, old_arr)
                 match($3, /^Powerbi\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip\//, new_arr)
                 if (old_arr[1] != "" && new_arr[1] != "") {
@@ -69,25 +69,33 @@ jobs:
             exit 0
           fi
 
-          DATE=$(date -u +%Y-%m-%d)
-          NEW_ENTRY="## $DATE\n\n$CHANGES\n\n---"
-
           LOG_FILE="pbip-changelog.md"
 
-          if [ -f "$LOG_FILE" ]; then
-            echo -e "$NEW_ENTRY\n\n$(cat $LOG_FILE)" > $LOG_FILE
-          else
-            echo -e "$NEW_ENTRY" > $LOG_FILE
-          fi
+          # Touch the file if it doesn't exist yet
+          touch $LOG_FILE
 
-          python3 - <<'EOF'
+          python3 - <<EOF
           import re
+          from datetime import datetime, timezone
+
+          date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+          new_changes = """$CHANGES"""
 
           with open("pbip-changelog.md", "r") as f:
               content = f.read()
 
           sections = re.split(r'(?=^## \d{4}-\d{2}-\d{2})', content, flags=re.MULTILINE)
           sections = [s for s in sections if s.strip()]
+
+          if sections and sections[0].startswith(f"## {date}"):
+              # Append to today's existing section
+              existing = sections[0].rstrip().rstrip('---').strip()
+              sections[0] = f"{existing}\n{new_changes}\n\n---\n"
+          else:
+              # Prepend as new section
+              new_entry = f"## {date}\n\n{new_changes}\n\n---\n"
+              sections.insert(0, new_entry)
+
           trimmed = sections[:30]
 
           with open("pbip-changelog.md", "w") as f:
