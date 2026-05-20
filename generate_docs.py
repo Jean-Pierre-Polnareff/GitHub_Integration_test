@@ -2,7 +2,7 @@
 generate_docs.py
 
 Reads changelog.md and processed.json, then for each unprocessed entry:
-  - CREATED / MODIFIED : generate .md doc + convert PDF to PNGs → wiki
+  - CREATED / MODIFIED : generate .md doc + convert PDF to PNGs -> wiki
   - DELETED            : remove .md + PNGs from wiki
 
 Run from the root of the main repo:
@@ -15,8 +15,6 @@ Run from the root of the main repo:
 import argparse
 import json
 import re
-import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 try:
@@ -41,11 +39,6 @@ METADATA_KEYWORDS = {
 # ---------------------------------------------------------------------------
 
 def pdf_to_pngs(pdf_path: Path, workspace: str, report_name: str, wiki_dir: Path):
-    """
-    Convert each page of the PDF to a PNG in the wiki directory.
-    Returns list of (page_label, png_filename) tuples.
-    Returns empty list if PDF missing or pymupdf unavailable.
-    """
     if not FITZ_AVAILABLE:
         print("  Skipping PDF conversion — pymupdf not installed.")
         return []
@@ -329,12 +322,6 @@ def build_measures_md(measures):
 # ---------------------------------------------------------------------------
 
 def extract_existing_descriptions(md_path: Path):
-    """
-    Returns:
-        report_description : str or None
-        page_descriptions  : dict {page_name: description_text}
-        users              : str or None
-    """
     if not md_path.exists():
         return None, {}, None
 
@@ -362,11 +349,11 @@ def extract_existing_descriptions(md_path: Path):
         if text and text != "_Add users here._":
             users = text
 
-    # Per-page descriptions
+    # Per-page descriptions — match ### heading, image, then description
     page_descriptions = {}
-     page_blocks = re.findall(
-      r"###\s+(.+?)\n!\[.*?\]\(.*?\)\n\n(.*?)(?=\n###|\n##|\Z)",
-      content, re.DOTALL
+    page_blocks = re.findall(
+        r"###\s+(.+?)\n!\[.*?\]\(.*?\)\n\n(.*?)(?=\n###|\n##|\Z)",
+        content, re.DOTALL
     )
     for page_name, desc_block in page_blocks:
         desc = desc_block.strip()
@@ -407,15 +394,15 @@ def generate_doc(
     lines.append("## Pages\n")
     if pages:
         for idx, page_name in enumerate(pages):
-          lines.append(f"### {page_name}")
-          if idx < len(png_list):
-              _, png_filename = png_list[idx]
-              encoded_png = png_filename.replace(" ", "%20")
-              lines.append(f"![{page_name}]({encoded_png})\n")
-    else:
-        lines.append(f"![{page_name}]()\n")
-      page_desc = existing_page_descs.get(page_name, "_Add page description here._")
-      lines.append(f"{page_desc}\n")
+            lines.append(f"### {page_name}")
+            if idx < len(png_list):
+                _, png_filename = png_list[idx]
+                encoded_png = png_filename.replace(" ", "%20")
+                lines.append(f"![{page_name}]({encoded_png})\n")
+            else:
+                lines.append(f"![{page_name}]()\n")
+            page_desc = existing_page_descs.get(page_name, "_Add page description here._")
+            lines.append(f"{page_desc}\n")
     else:
         lines.append("_No pages found._\n")
     lines.append("---\n")
