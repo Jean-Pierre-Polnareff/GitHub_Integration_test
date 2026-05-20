@@ -23,17 +23,8 @@ jobs:
             SINCE=$(git rev-list --max-parents=0 HEAD)
           fi
 
-          echo "=== SINCE: $SINCE ==="
-          echo "=== NOW: $NOW ==="
-          echo "=== Raw diff ==="
-          git diff --name-status -M $SINCE $NOW
-          echo "=== End diff ==="
-          echo "=== Diff through awk ==="
-          git diff --name-status -M $SINCE $NOW | awk '{ print "LINE: [" $0 "]" }'
-          echo "=== End awk ==="
-
           CHANGES=$(git diff --name-status -M $SINCE $NOW \
-          | awk '
+          | awk -F'\t' '
             function extract(path,   arr) {
               if (match(path, /^PowerBI\/([^\/]+)\/([^\/]+)\/[^\/]+\.pbip$/, arr)) {
                 return arr[1] "/" arr[2]
@@ -80,16 +71,12 @@ jobs:
             }
           ')
 
-          echo "=== CHANGES ==="
-          echo "$CHANGES"
-          echo "=== End CHANGES ==="
-
           if [ -z "$CHANGES" ]; then
             echo "No PBIP changes in this push, skipping."
             exit 0
           fi
 
-          LOG_FILE="pbip-changelog.md"
+          LOG_FILE="changelog.md"
           touch $LOG_FILE
 
           python3 - <<EOF
@@ -99,7 +86,7 @@ jobs:
           date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
           new_changes = """$CHANGES"""
 
-          with open("pbip-changelog.md", "r") as f:
+          with open("changelog.md", "r") as f:
               content = f.read()
 
           sections = re.split(r'(?=^## \d{4}-\d{2}-\d{2})', content, flags=re.MULTILINE)
@@ -114,7 +101,7 @@ jobs:
 
           trimmed = sections[:30]
 
-          with open("pbip-changelog.md", "w") as f:
+          with open("changelog.md", "w") as f:
               f.write("\n".join(trimmed).strip() + "\n")
           EOF
 
@@ -125,6 +112,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pbip-changelog.md
-          git diff --staged --quiet || git commit -m "chore: update PBIP changelog $(date -u +%Y-%m-%d)"
+          git add changelog.md
+          git diff --staged --quiet || git commit -m "chore: update changelog $(date -u +%Y-%m-%d)"
           git push
