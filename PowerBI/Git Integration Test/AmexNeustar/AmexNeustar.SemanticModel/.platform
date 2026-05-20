@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "AmexNeustar"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f99713c5-0ea8-4677-90f9-b006948d4fab"
+  }
+}

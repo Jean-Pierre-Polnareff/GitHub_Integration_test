@@ -1,0 +1,34 @@
+table Abbreviations
+	lineageTag: d7e6ece6-abf4-4e38-993f-510722becafe
+
+	column Field
+		dataType: string
+		lineageTag: e119c19e-513d-4e42-8f69-792a72803968
+		summarizeBy: none
+		sourceColumn: Field
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Meaning
+		dataType: string
+		lineageTag: b929d521-b8e3-4ba2-a9f4-ad6ea86c3a73
+		summarizeBy: none
+		sourceColumn: Meaning
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition Abbreviations-5cb71b45-b97e-4808-99ab-6fb76d41b5db = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8kstVXDOzytJTC5RcE4sSU3PL6pUUNIBiReXJBbB5BKTMnMySyrhSpRidVD1BifnF6Xi1geRRtcUkpmbqqDh7huiiVsnWE1mnoJ7UWpqXnlmcoaCb2piHlhYKTYWAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Field = _t, Meaning = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Field", type text}, {"Meaning", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

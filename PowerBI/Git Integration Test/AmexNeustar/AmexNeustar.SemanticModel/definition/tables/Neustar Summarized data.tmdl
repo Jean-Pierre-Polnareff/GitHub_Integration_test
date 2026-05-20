@@ -1,0 +1,434 @@
+table 'Neustar Summarized data'
+	lineageTag: a47b4047-88b4-4905-9ed4-5620ef0cba15
+
+	measure Intensity = CALCULATE(DIVIDE(SUM('Neustar Summarized data'[Cnt_Attempt]), SUM('Neustar Summarized data'[Score_phone])))
+		formatString: 0.00
+		lineageTag: 6ce98fd0-d83f-41bc-afb8-6fdaec8a3f72
+
+	measure 'RPC % per unique dialed' = CALCULATE(DIVIDE(SUM('Neustar Summarized data'[Unq_RPC]), SUM('Neustar Summarized data'[Score_phone])))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: c0c052d0-2829-440e-8276-ead87e6cef21
+
+	measure 'WPC % per unique dialed' = CALCULATE(DIVIDE(SUM('Neustar Summarized data'[Unq_WPC]), SUM('Neustar Summarized data'[Score_phone])))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 8bee761c-a253-42a4-8082-ecd6be9dfbfd
+
+	measure 'RPC % per Attempt' = CALCULATE(DIVIDE(SUM('Neustar Summarized data'[total_RPC]), SUM('Neustar Summarized data'[Cnt_Attempt])))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 18b894ae-5e03-4382-80b4-5fc9a3937fc3
+
+	measure 'WPC % per Attempt' = CALCULATE(DIVIDE(SUM('Neustar Summarized data'[total_WPC]), SUM('Neustar Summarized data'[Cnt_Attempt])))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: c2e02198-bd6b-4e74-9ec8-e9bbd3bbf2b6
+
+	measure 'Percentile for RPC % per unique dialed' =
+			
+			Calculate(PERCENTILEX.EXC('Neustar Summarized data',[RPC % per unique dialed],0.5)
+			----,ALL(Recovery[neustar_score])
+			)
+		lineageTag: f69d517b-e404-4ee8-ac54-b7af6586925a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Percentile for WPC % per Unique Dialed' = Calculate(PERCENTILEx.EXC('Neustar Summarized data',[WPC % per unique dialed],0.5))
+		lineageTag: 58d2ff68-cb45-41ea-a83b-3e70d0928727
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '50th Percentile in RPC% per unique dialed' =
+			
+			VAR temptable =  SUMMARIZE('Neustar Summarized data',[phoneactivity],[neustar_score],"RPCU",[RPC % per unique dialed])
+			RETURN
+			PERCENTILEX.EXC(temptable,[RPCU],0.25)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 108ada5a-be30-4344-a9a5-71cdb4315ab5
+
+	measure 'Cond Formatting RPC% per unique dialed' =
+			
+			VAR temptable =  SUMMARIZE('Neustar Summarized data',[phoneactivity],[neustar_score],"RPCU",[RPC % per unique dialed])
+			RETURN
+			 ---1st Quartile --->
+			 IF([RPC % per unique dialed] <= VALUE(PERCENTILEX.INC(temptable,[RPCU],0.25)),1,
+			 ---2nd Quartile -->
+			 IF([RPC % per unique dialed] <= VALUE(PERCENTILEX.INC(temptable,[RPCU],0.5)),2,
+			 ---3rd Quartile -->
+			 IF([RPC % per unique dialed] <= VALUE(PERCENTILEX.INC(temptable,[RPCU],0.75)),3,
+			 ---4th Quartile -->
+			 IF([RPC % per unique dialed] > VALUE(PERCENTILEX.INC(temptable,[RPCU],0.75)),4))))
+		lineageTag: 4a5855f9-039c-4d5d-89c9-807800f3624c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure =
+			
+			VAR temptable =  SUMMARIZE('Neustar Summarized data',[phoneactivity],[Neustar_score],"RPCU",[RPC % per unique dialed])
+			VAR temptable2 =  CALCULATE(PERCENTILEX.INC(SUMMARIZE('Neustar Summarized data',[phoneactivity],[Neustar_score],"RPCU",[RPC % per unique dialed]),[RPCU],0.5))
+			RETURN
+			---IF(CALCULATE([RPC % per unique dialed]) <  value(temptable2) , 1,0)
+			VALUE(temptable2)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 4fbac47c-6cf8-4e42-8029-186f2a8be997
+
+	measure '75th Percentile RPC %' =
+			
+			CALCULATE(
+				PERCENTILEX.INC('Neustar Summarized data',[RPC % per unique dialed],0.5)
+			---,
+			---ALLSELECTED('Recovery'[neustar_score]),
+			---ALLSELECTED('Recovery'[Sort Order of Neustar Score])
+			 ---,
+			---ALL('Recovery'[neustar_score],
+			---'Recovery'[Sort Order of Neustar Score])
+			---,
+			---ALLSELECTED('Recovery'[neustar_score]),
+			---ALLSELECTED('Recovery'[Sort Order of Neustar Score])
+			---ALL(
+			---'Recovery'[phoneactivity],
+			---'Recovery'[Sort Order of phoneactivity])
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: a1b90f6e-8c95-4321-b81f-34d3e411009f
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "TotalForSelectedCategory"
+				}
+
+	measure 'Selected Date Range' = SELECTEDVALUE('Neustar Summarized data'[Date Range], "All Date Ranges are selected.. Please select only one Date Range.")
+		lineageTag: cf9fc793-448b-44a9-ae89-7b39f8564142
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Selected Segment' =
+			
+			IF( COUNTROWS(DISTINCT(ALL('Neustar Summarized data'[Segment]))) = COUNTROWS(DISTINCT(ALLSELECTED('Neustar Summarized data'[Segment]))) ,"All Segments(AXP Legal, Recover, RLK Series)",[List of Segment values])
+			--- SELECTEDVALUE('Neustar Summarized data'[Segment], "Multiple Segments are selected.. Please select only one Segment at a time")
+		lineageTag: 71f21bce-de1c-45b6-8ebc-80fe93ff42ec
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'List of Segment values' =
+			
+			VAR __DISTINCT_VALUES_COUNT = DISTINCTCOUNT('Neustar Summarized data'[Segment])
+			VAR __MAX_VALUES_TO_SHOW = 5
+			RETURN
+				IF(
+					__DISTINCT_VALUES_COUNT > __MAX_VALUES_TO_SHOW,
+					CONCATENATE(
+						CONCATENATEX(
+							TOPN(
+								__MAX_VALUES_TO_SHOW,
+								VALUES('Neustar Summarized data'[Segment]),
+								'Neustar Summarized data'[Segment],
+								ASC
+							),
+							'Neustar Summarized data'[Segment],
+							", ",
+							'Neustar Summarized data'[Segment],
+							ASC
+						),
+						", etc."
+					),
+					CONCATENATEX(
+						VALUES('Neustar Summarized data'[Segment]),
+						'Neustar Summarized data'[Segment],
+						", ",
+						'Neustar Summarized data'[Segment],
+						ASC
+					)
+				)
+		lineageTag: efe02467-7738-4c3a-bc59-5b71879366b2
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Selected Date Range Gauge' = IF( [Selected Date Range] = "All Date Ranges are selected.. Please select only one Date Range.",  "#F8696B", "#63BE7B")
+		lineageTag: 1fad5a77-d6bd-4870-81e9-742ad8b50f06
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column PhoneType
+		dataType: string
+		lineageTag: a7aec775-128b-4b48-abe8-6941a512f58e
+		summarizeBy: none
+		sourceColumn: PhoneType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Cnt_Attempt
+		dataType: int64
+		formatString: #,0
+		lineageTag: 64b6185e-6073-4f56-96f4-db02907cd007
+		summarizeBy: sum
+		sourceColumn: Cnt_Attempt
+
+		annotation SummarizationSetBy = Automatic
+
+	column Score_phone
+		dataType: int64
+		formatString: #,0
+		lineageTag: f4591cc5-8cd4-4558-a861-b172f6aab196
+		summarizeBy: sum
+		sourceColumn: Score_phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_RPC
+		dataType: int64
+		formatString: #,0
+		lineageTag: 20636886-bfd3-4b71-83b2-412f6f7bedda
+		summarizeBy: sum
+		sourceColumn: total_RPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_WPC
+		dataType: int64
+		formatString: #,0
+		lineageTag: 29431a96-e827-4efd-85ac-f5a8d993adab
+		summarizeBy: sum
+		sourceColumn: total_WPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unq_RPC
+		dataType: int64
+		formatString: #,0
+		lineageTag: d911a328-e60c-4d7d-af80-28730879988a
+		summarizeBy: sum
+		sourceColumn: Unq_RPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unq_WPC
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8d43f031-0c09-425b-a54c-b63aa25b4ab4
+		summarizeBy: sum
+		sourceColumn: Unq_WPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column neustar_score
+		dataType: string
+		lineageTag: a6b870e6-9e66-4f2d-97cb-5b8fbad2d140
+		summarizeBy: none
+		sourceColumn: neustar_score
+		sortByColumn: 'Sort Order of Neustar Score'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Neustar Summarized data","TableItemName":"neustar_score (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Portfolios
+		dataType: string
+		lineageTag: 1bb192d3-6ea7-4bcf-b06a-ef8602e443bc
+		summarizeBy: none
+		sourceColumn: Portfolios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column phoneactivity
+		dataType: string
+		lineageTag: 7e8fedff-9291-46b4-94ef-20e26f12c625
+		summarizeBy: none
+		sourceColumn: phoneactivity
+		sortByColumn: 'Sort Order of phoneactivity'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Contactability
+		dataType: string
+		lineageTag: 04122d23-19de-4bc8-92ae-5175b2b51b2e
+		summarizeBy: none
+		sourceColumn: Contactability
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Balance
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: c1c02fa5-612e-4d27-a040-d77e5ef9467c
+		summarizeBy: sum
+		sourceColumn: Balance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Sort Order of Neustar Score'
+		dataType: string
+		lineageTag: ce202b87-a832-4c50-9b20-3f4dfc3df54d
+		summarizeBy: none
+		sourceColumn: Sort Order of Neustar Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Sort Order of phoneactivity'
+		dataType: string
+		lineageTag: edc2a78d-2697-4167-99d4-b0f7347b0dde
+		summarizeBy: none
+		sourceColumn: Sort Order of phoneactivity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'neustar_score (groups)' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('Neustar Summarized data'[neustar_score]),
+			  "(Blank)",
+			  'Neustar Summarized data'[neustar_score] IN {"0",
+			    "1",
+			    "2"},
+			  "0-2",
+			  'Neustar Summarized data'[neustar_score] IN {"3",
+			    "5"},
+			  "3-5",
+			  'Neustar Summarized data'[neustar_score] IN {"10",
+			    "6",
+			    "7"},
+			  "6+",
+			  'Neustar Summarized data'[neustar_score] IN {"Control"},
+			  "Control",
+			  'Neustar Summarized data'[neustar_score]
+			)
+		lineageTag: e7ff80c8-e1bf-4491-ac4d-3ef5d38e5313
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Neustar Summarized data"
+				          }
+				        },
+				        "Property": "neustar_score"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"n","Entity":"Neustar Summarized data"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"n"}},"Property":"neustar_score"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"0-2","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"n"}},"Property":"neustar_score"}}],"Values":[[{"Literal":{"Value":"'0'"}}],[{"Literal":{"Value":"'1'"}}],[{"Literal":{"Value":"'2'"}}]]}}},{"DisplayName":"3-5","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"n"}},"Property":"neustar_score"}}],"Values":[[{"Literal":{"Value":"'3'"}}],[{"Literal":{"Value":"'5'"}}]]}}},{"DisplayName":"6+","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"n"}},"Property":"neustar_score"}}],"Values":[[{"Literal":{"Value":"'10'"}}],[{"Literal":{"Value":"'6'"}}],[{"Literal":{"Value":"'7'"}}]]}}},{"DisplayName":"Control","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"n"}},"Property":"neustar_score"}}],"Values":[[{"Literal":{"Value":"'Control'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column TimeZone
+		dataType: string
+		lineageTag: 59867455-3013-4c75-af18-4a19d78d669c
+		summarizeBy: none
+		sourceColumn: TimeZone
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Category
+		dataType: string
+		lineageTag: 867c3f18-56f3-4b82-84ca-490088910b5d
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Balance Range'
+		dataType: string
+		lineageTag: b0f35a7a-7ef7-4f28-b350-ac897b206e30
+		summarizeBy: none
+		sourceColumn: Balance Range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Date Range'
+		dataType: string
+		lineageTag: 0846f5b7-044a-4d5e-ad07-ae48e30f18ca
+		summarizeBy: none
+		sourceColumn: Date Range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Insert Date'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f5c4bca0-9bac-4de3-9279-e094f12e481e
+		summarizeBy: none
+		sourceColumn: Insert Date
+
+		variation Variation
+			isDefault
+			relationship: f608fd7d-9d5a-4bf2-8ec9-6ce0a85d10b7
+			defaultHierarchy: LocalDateTable_5aa501fa-0b68-4c46-954c-1ec018c41968.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 37de90ff-7c7e-4d6f-b06e-a1054f616b35
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column ClientId
+		dataType: string
+		lineageTag: 0ace0852-2967-4690-82a4-9629ac142952
+		summarizeBy: none
+		sourceColumn: ClientId
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Frequency
+		dataType: string
+		lineageTag: c012547e-2731-4d5e-a5fa-6943538d99bc
+		summarizeBy: none
+		sourceColumn: Frequency
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition 'Neustar Summarized data-25ba2890-d929-455a-a57a-09ec75a72842' = m
+		mode: import
+		source =
+				let
+				     Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_Amex_Neustar_Summarized = Source{[Schema="dbo",Item="Amex_Neustar_Summarized"]}[Data],
+				    #"Added Conditional Column" = Table.AddColumn(dbo_Amex_Neustar_Summarized, "Sort Order of Neustar Score", each if [Neustar_Result] = "10" then 1 else if [Neustar_Result] = "7" then 2 else if [Neustar_Result] = "6" then 3 else if [Neustar_Result] = "5" then 4 else if [Neustar_Result] = "3" then 5 else if [Neustar_Result] = "2" then 6 else if [Neustar_Result] = "1" then 7 else if [Neustar_Result] = "0" then 8 else 9),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "Sort Order of phoneactivity", each if [PhoneActivity] = "A7" then "a" else if [PhoneActivity] = "A6" then "b" else if [PhoneActivity] = "A5" then "c" else if [PhoneActivity] = "A4" then "d" else if [PhoneActivity] = "A3" then "e" else if [PhoneActivity] = "A2" then "f" else if [PhoneActivity] = "A1" then "g" else if [PhoneActivity] = "I1" then "h" else if [PhoneActivity] = "I2" then "i" else if [PhoneActivity] = "I3" then "j" else if [PhoneActivity] = "I4" then "k" else if [PhoneActivity] = "I5" then "l" else if [PhoneActivity] = "I6" then "m" else if [PhoneActivity] = "U" then "n" else "o"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Conditional Column1",{{"PhoneActivity", "phoneactivity"}, {"Neustar_Result", "neustar_score"}, {"PortFolios", "Portfolios"}, {"Rcode", "ClientId"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"Contactability"}, #"Contactability-TimeZone-Category", {"Contactability Score"}, "Contactibility-TimeZone-Category", JoinKind.LeftOuter),
+				    #"Expanded Contactability-TimeZone-Category" = Table.ExpandTableColumn(#"Merged Queries", "Contactibility-TimeZone-Category", {"TimeZone", "Category"}, {"TimeZone", "Category"})
+				in
+				    #"Expanded Contactability-TimeZone-Category"
+
+	annotation PBI_ResultType = Table
+

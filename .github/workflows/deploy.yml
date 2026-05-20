@@ -1,0 +1,41 @@
+name: Deploy PBIP to Power BI
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          allow-no-subscriptions: true
+
+      - name: Install fabric-cicd
+        run: pip install fabric-cicd
+
+      - name: Get changed files
+        id: changes
+        shell: bash
+        run: |
+          FILES=$(git diff --name-only HEAD~1 | tr '\n' ',')
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Debug changed files
+        shell: bash
+        run: echo "Changed files = $(git diff --name-only HEAD~1)"
+
+      - name: Deploy Git Integration Test
+        if: contains(steps.changes.outputs.files, 'Git Integration Test/')
+        run: python deploy.py --workspace_name "Git Integration Test"

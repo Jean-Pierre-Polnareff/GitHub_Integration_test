@@ -1,0 +1,247 @@
+table Amex_Neustar_Active_Account_Phone_Inventory_Summarized
+	lineageTag: 32552056-13ac-4ad4-8091-2058a3a48f53
+
+	measure 'Phone Inventory Selected Date Range' = SELECTEDVALUE(Amex_Neustar_Active_Account_Phone_Inventory_Summarized[Date Range], "All Date Ranges are selected.. Please select only one Date Range.")
+		lineageTag: cdab13c0-7f96-4075-a1e5-9a86f31e26e9
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Phone Inventory Selected Segment' =
+			
+			IF( COUNTROWS(DISTINCT(ALL(Amex_Neustar_Active_Account_Phone_Inventory_Summarized[Segment]))) = COUNTROWS(DISTINCT(ALLSELECTED(Amex_Neustar_Active_Account_Phone_Inventory_Summarized[Segment]))) ,"All Segments(AXP Legal, Recover, RLK Series)",[Phone Inventory List of Segment values])
+			-----SELECTEDVALUE('Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment], "Multiple Segments are selected.. Please select only one Segment at a time")
+		lineageTag: 58dc4b13-7fe1-4ce6-8e6d-0d61c889ef65
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Phone Inventory List of Segment values' =
+			
+			VAR __DISTINCT_VALUES_COUNT = DISTINCTCOUNT('Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment])
+			VAR __MAX_VALUES_TO_SHOW = 5
+			RETURN
+				IF(
+					__DISTINCT_VALUES_COUNT > __MAX_VALUES_TO_SHOW,
+					CONCATENATE(
+						CONCATENATEX(
+							TOPN(
+								__MAX_VALUES_TO_SHOW,
+								VALUES('Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment]),
+								'Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment],
+								ASC
+							),
+							'Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment],
+							", ",
+							'Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment],
+							ASC
+						),
+						", etc."
+					),
+					CONCATENATEX(
+						VALUES('Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment]),
+						'Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment],
+						", ",
+						'Amex_Neustar_Active_Account_Phone_Inventory_Summarized'[Segment],
+						ASC
+					)
+				)
+		lineageTag: 48522eeb-e1c3-49a4-9a29-8a5e39f61777
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Phone Inventory Selected Date Range Gauge' = IF( [Phone Inventory Selected Date Range] = "All Date Ranges are selected.. Please select only one Date Range.",  "#F8696B", "#63BE7B")
+		lineageTag: db1012bc-ca97-481b-a495-3f853aeefefa
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column PhoneActivity
+		dataType: string
+		lineageTag: bc9dd907-2b31-4858-a4b9-d141c0828282
+		summarizeBy: none
+		sourceColumn: PhoneActivity
+		sortByColumn: 'Sort Order of PhoneActivity'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column PhoneType
+		dataType: string
+		lineageTag: 0613f10c-8d5f-414a-9ad7-4d53508fdf80
+		summarizeBy: none
+		sourceColumn: PhoneType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Contactability
+		dataType: string
+		lineageTag: c7a35763-996f-4628-b841-879e20341eff
+		summarizeBy: none
+		sourceColumn: Contactability
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Neustar_Result
+		dataType: string
+		lineageTag: 3a063821-5bf2-462a-b5fb-a2c36d2c788b
+		summarizeBy: none
+		sourceColumn: Neustar_Result
+		sortByColumn: 'Sort Order of Neustar Score'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column PortFolios
+		dataType: string
+		lineageTag: 494f20be-c5c9-4fad-8b98-bd787ee7f576
+		summarizeBy: none
+		sourceColumn: PortFolios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Balance
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b20e4f73-2a80-4275-9052-a0e1879a345f
+		summarizeBy: sum
+		sourceColumn: Balance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Phones
+		dataType: int64
+		formatString: #,0
+		lineageTag: 642dc95d-f8c9-45c3-b8bc-3d350c05114d
+		summarizeBy: sum
+		sourceColumn: Phones
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Balance Range'
+		dataType: string
+		lineageTag: 65c8548c-96f7-4b0b-a9c9-86544077995c
+		summarizeBy: none
+		sourceColumn: Balance Range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Date Range'
+		dataType: string
+		lineageTag: 9f4ca746-bcc2-45ea-b743-ba8f96fd5851
+		summarizeBy: none
+		sourceColumn: Date Range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Insert Date'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ea140432-0888-423c-9844-5aef218ff330
+		summarizeBy: none
+		sourceColumn: Insert Date
+
+		variation Variation
+			isDefault
+			relationship: 20530fbe-790d-4416-8a82-7313270ee62c
+			defaultHierarchy: LocalDateTable_d57edeff-bbc0-4950-ad16-c74095fda163.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order of Neustar Score'
+		dataType: string
+		lineageTag: 3928d7af-4fd7-425f-8fa5-414bd8c3def7
+		summarizeBy: none
+		sourceColumn: Sort Order of Neustar Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Sort Order of PhoneActivity'
+		dataType: string
+		lineageTag: 9bfff332-c2ac-42c7-986f-c63847723456
+		summarizeBy: none
+		sourceColumn: Sort Order of PhoneActivity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column TimeZone
+		dataType: string
+		lineageTag: e8ac1e37-3a9c-4c2b-8724-f8032f41aae6
+		summarizeBy: none
+		sourceColumn: TimeZone
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Category
+		dataType: string
+		lineageTag: 3cf38bb9-ff89-4c12-8087-a8c1d0bb3704
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Segment
+		dataType: string
+		lineageTag: b63f6937-3124-43d5-a213-64235f105037
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column ClientId
+		dataType: string
+		lineageTag: a05ff7bf-88f7-41ff-919d-f1f03a696f95
+		summarizeBy: none
+		sourceColumn: ClientId
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Frequency
+		dataType: string
+		lineageTag: 50d3a1f1-f49e-438f-b87d-384eedba4332
+		summarizeBy: none
+		sourceColumn: Frequency
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition Amex_Neustar_Active_Account_Phone_Inventory_Summarized-f22ef052-9788-40f7-b082-d1c98c2173d5 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DFW2-BISQL-001", "CLIENT_ANALYTICS"),
+				    dbo_Amex_Neustar_Active_Account_Phone_Inventory_Summarized = Source{[Schema="dbo",Item="Amex_Neustar_Active_Account_Phone_Inventory_Summarized"]}[Data],
+				    #"Added Conditional Column" = Table.AddColumn(dbo_Amex_Neustar_Active_Account_Phone_Inventory_Summarized, "Sort Order of Neustar Score", each if [Neustar_Result] = "10" then 1 else if [Neustar_Result] = "7" then 2 else if [Neustar_Result] = "6" then 3 else if [Neustar_Result] = "5" then 4 else if [Neustar_Result] = "3" then 5 else if [Neustar_Result] = "2" then 6 else if [Neustar_Result] = "1" then 7 else if [Neustar_Result] = "0" then 8 else 9),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "Sort Order of PhoneActivity", each if [PhoneActivity] = "A7" then "a" else if [PhoneActivity] = "A6" then "b" else if [PhoneActivity] = "A5" then "c" else if [PhoneActivity] = "A4" then "d" else if [PhoneActivity] = "A3" then "e" else if [PhoneActivity] = "A2" then "f" else if [PhoneActivity] = "A1" then "g" else if [PhoneActivity] = "I1" then "h" else if [PhoneActivity] = "I2" then "i" else if [PhoneActivity] = "I3" then "j" else if [PhoneActivity] = "I4" then "k" else if [PhoneActivity] = "I5" then "l" else if [PhoneActivity] = "I6" then "m" else if [PhoneActivity] = "U" then "n" else "o"),
+				    #"Merged Queries" = Table.NestedJoin(#"Added Conditional Column1", {"Contactability"}, #"Contactability-TimeZone-Category", {"Contactability Score"}, "Contactibility-TimeZone-Category", JoinKind.LeftOuter),
+				    #"Expanded Contactability-TimeZone-Category" = Table.ExpandTableColumn(#"Merged Queries", "Contactibility-TimeZone-Category", {"TimeZone", "Category"}, {"TimeZone", "Category"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Contactability-TimeZone-Category",{{"Rcode", "ClientId"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

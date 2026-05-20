@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.145.1105.0 (25.07)+decbc46fce458c5b8d5109d6f32a743f2ac949c8
+
+annotation PBI_QueryOrder = ["RangeStart","RangeEnd","Neustar Summarized data","Contactability-TimeZone-Category","Amex_Neustar_Active_Account_Phone_Inventory_Summarized","Definitions","Abbreviations"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_e605ec90-3770-48c2-9e4d-510e2a16d20a
+ref table 'Neustar Summarized data'
+ref table Contactability-TimeZone-Category
+ref table Amex_Neustar_Active_Account_Phone_Inventory_Summarized
+ref table LocalDateTable_5aa501fa-0b68-4c46-954c-1ec018c41968
+ref table LocalDateTable_d57edeff-bbc0-4950-ad16-c74095fda163
+ref table Definitions
+ref table Abbreviations
+
+ref cultureInfo en-US
+

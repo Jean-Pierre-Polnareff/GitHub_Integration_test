@@ -1,0 +1,34 @@
+table Definitions
+	lineageTag: 36c60085-a943-4095-b30f-5c3a5b133835
+
+	column Field
+		dataType: string
+		lineageTag: 421fd521-6a58-4226-acec-0536198b6e59
+		summarizeBy: none
+		sourceColumn: Field
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Formula
+		dataType: string
+		lineageTag: e8040b20-f1ad-490e-a0cb-cd78cc7970e2
+		summarizeBy: none
+		sourceColumn: Formula
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition Definitions-e9393118-fd8b-412f-84be-1a9b11db35a5 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8swrSc0rziypVNJR0nDOK4l3LClJzS0o0dTXCE7OL0qNL8jIz0vVVIrViVYKCnBWBSkryS9JzIkH8oCKkLWAFYWjKArHrghkkkJBapFCaF5mYWmqQkpmYk5qCkhbaF4h1GQM68PxagrHoikWAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Field = _t, Formula = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Field", type text}, {"Formula", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

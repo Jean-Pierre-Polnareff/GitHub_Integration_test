@@ -1,0 +1,10 @@
+relationship f608fd7d-9d5a-4bf2-8ec9-6ce0a85d10b7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Neustar Summarized data'.'Insert Date'
+	toColumn: LocalDateTable_5aa501fa-0b68-4c46-954c-1ec018c41968.Date
+
+relationship 20530fbe-790d-4416-8a82-7313270ee62c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Amex_Neustar_Active_Account_Phone_Inventory_Summarized.'Insert Date'
+	toColumn: LocalDateTable_d57edeff-bbc0-4950-ad16-c74095fda163.Date
+

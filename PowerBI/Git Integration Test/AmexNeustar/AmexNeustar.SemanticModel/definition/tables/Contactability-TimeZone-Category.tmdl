@@ -1,0 +1,44 @@
+table Contactability-TimeZone-Category
+	lineageTag: 95cdf1b2-ea49-4d2e-a17a-b9e172dc461b
+
+	column TimeZone
+		dataType: string
+		lineageTag: 15c056dd-6da1-4473-846f-308a265aba5f
+		summarizeBy: none
+		sourceColumn: TimeZone
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Category
+		dataType: string
+		lineageTag: 287a47a0-332f-4038-94cb-fdcde31d4781
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Contactability Score'
+		dataType: string
+		lineageTag: 885fcc50-4092-4a33-82ca-55adff893b48
+		summarizeBy: none
+		sourceColumn: Contactability Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition Contactability-TimeZone-Category-34c4289c-47e5-4640-bdca-e34c978f8d61 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("jdBLDoIwEIDhqzRdEwKEELa+UREP0LCogUgTCBODuvUO3tCTWKaaaagLd532S9O/QvAZ93gYMel3Pns9nsws9Wamzg0vPcHnerBA7ICFHmICiQOWekgIpF9wHJr6gmKlp5REGDh3rMd3BhaJGBhyqCt17RBtTAxQjGsyzAHKgeljttgD1ONessMioKIPyfs7nu+xB6yeCchNDlg5zqcUeip6VslBMnmTqpWntv65N+r/cfkG", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Contactability Score" = _t, TimeZone = _t, Category = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Contactability Score", type text}, {"TimeZone", type text}, {"Category", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

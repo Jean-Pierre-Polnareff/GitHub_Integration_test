@@ -1,0 +1,1430 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "recovery": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "recovery": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "retrieval": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "repossession": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "reclamation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "salvage": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "recapture": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "regaining": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "rescue": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "revival": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.466
+			          }
+			        },
+			        {
+			          "recuperation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.466
+			          }
+			        },
+			        {
+			          "improvement": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.466
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.phone_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "PhoneType"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "phone type": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "PhoneType": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "type": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "phone category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "phone genre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "phone manner": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "phone variety": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "genre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "manner": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "variety": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "phone brand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "phone class": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.cnt_attempt": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Cnt_Attempt"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cnt attempt": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Cnt_Attempt": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "cnt effort": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "cnt try": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt go": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt shot": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt challenge": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt endeavor": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt stab": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt crack": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "cnt bid": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.score_phone": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Score_phone"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "score phone": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Score_phone": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "phone": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "score handset": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "score receiver": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "score headset": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "handset": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "receiver": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "headset": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "score telephone": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "score mobile": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "telephone": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "mobile": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.total_RPC": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "total_RPC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total RPC": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_RPC": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "RPC": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "aggregate rpc": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "overall rpc": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.total_WPC": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "total_WPC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total WPC": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_WPC": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "WPC": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "aggregate wpc": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "overall wpc": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.unq_RPC": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Unq_RPC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "unq RPC": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Unq_RPC": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.unq_WPC": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Unq_WPC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "unq WPC": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Unq_WPC": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.intensity": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Intensity"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "intensity": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "strength": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "concentration": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "passion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "greatness": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "power": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "force": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.RPC__per_unique_dialed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "RPC % per unique dialed"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RPC % per unique dialed": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "rpc percentage per unique dialed": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.78
+			          }
+			        },
+			        {
+			          "rpc pct per unique dialed": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.757
+			          }
+			        },
+			        {
+			          "rpc percentage": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "rpc pct": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "RPC %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.WPC__per_unique_dialed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "WPC % per unique dialed"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "WPC % per unique dialed": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "wpc percentage per unique dialed": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.78
+			          }
+			        },
+			        {
+			          "wpc pct per unique dialed": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.757
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.RPC__per_attempt": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "RPC % per Attempt"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RPC % per attempt": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "rpc percentage per attempt": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.771
+			          }
+			        },
+			        {
+			          "rpc pct per attempt": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.748
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.WPC__per_attempt": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "WPC % per Attempt"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "WPC % per attempt": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "wpc percentage per attempt": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.771
+			          }
+			        },
+			        {
+			          "wpc pct per attempt": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Weight": 0.748
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.percentile_for_RPC__per_unique_dialed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Percentile for RPC % per unique dialed"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "percentile for RPC % per unique dialed": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Percentile": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "recovery.percentile_for_WPC__per_unique_dialed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Neustar Summarized data",
+			          "ConceptualProperty": "Percentile for WPC % per Unique Dialed"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "percentile for WPC % per unique dialed": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
+			    "recovery_has_neustar_score": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.neustar_score": {
+			          "Target": {
+			            "Entity": "recovery.neustar_score"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.neustar_score"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_portfolio": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.portfolio": {
+			          "Target": {
+			            "Entity": "recovery.portfolio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.portfolio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_phoneactivity": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.phoneactivity": {
+			          "Target": {
+			            "Entity": "recovery.phoneactivity"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.phoneactivity"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_phone_type": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.phone_type": {
+			          "Target": {
+			            "Entity": "recovery.phone_type"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.phone_type"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_active_phone": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.active_phone": {
+			          "Target": {
+			            "Entity": "recovery.active_phone"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.active_phone"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_cnt_attempt": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.cnt_attempt": {
+			          "Target": {
+			            "Entity": "recovery.cnt_attempt"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.cnt_attempt"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_score_phone": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.score_phone": {
+			          "Target": {
+			            "Entity": "recovery.score_phone"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.score_phone"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_total_RPC": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.total_RPC": {
+			          "Target": {
+			            "Entity": "recovery.total_RPC"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.total_RPC"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_total_WPC": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.total_WPC": {
+			          "Target": {
+			            "Entity": "recovery.total_WPC"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.total_WPC"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_unq_RPC": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.unq_RPC": {
+			          "Target": {
+			            "Entity": "recovery.unq_RPC"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.unq_RPC"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_unq_WPC": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.unq_WPC": {
+			          "Target": {
+			            "Entity": "recovery.unq_WPC"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.unq_WPC"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_neustar_score_groups": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.neustar_score_groups": {
+			          "Target": {
+			            "Entity": "recovery.neustar_score_groups"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.neustar_score_groups"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_intensity": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.intensity": {
+			          "Target": {
+			            "Entity": "recovery.intensity"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.intensity"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_RPC__per_unique_dialed": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.RPC__per_unique_dialed": {
+			          "Target": {
+			            "Entity": "recovery.RPC__per_unique_dialed"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.RPC__per_unique_dialed"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_WPC__per_unique_dialed": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.WPC__per_unique_dialed": {
+			          "Target": {
+			            "Entity": "recovery.WPC__per_unique_dialed"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.WPC__per_unique_dialed"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_RPC__per_attempt": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.RPC__per_attempt": {
+			          "Target": {
+			            "Entity": "recovery.RPC__per_attempt"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.RPC__per_attempt"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_WPC__per_attempt": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.WPC__per_attempt": {
+			          "Target": {
+			            "Entity": "recovery.WPC__per_attempt"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.WPC__per_attempt"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_sort_order_of_neustar_score": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.sort_order_of_neustar_score": {
+			          "Target": {
+			            "Entity": "recovery.sort_order_of_neustar_score"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.sort_order_of_neustar_score"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_sort_order_of_phoneactivity": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.sort_order_of_phoneactivity": {
+			          "Target": {
+			            "Entity": "recovery.sort_order_of_phoneactivity"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.sort_order_of_phoneactivity"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_percentile_for_RPC__per_unique_dialed": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.percentile_for_RPC__per_unique_dialed": {
+			          "Target": {
+			            "Entity": "recovery.percentile_for_RPC__per_unique_dialed"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.percentile_for_RPC__per_unique_dialed"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    },
+			    "recovery_has_percentile_for_WPC__per_unique_dialed": {
+			      "Binding": {
+			        "ConceptualEntity": "Neustar Summarized data"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "recovery": {
+			          "Target": {
+			            "Entity": "recovery"
+			          }
+			        },
+			        "recovery.percentile_for_WPC__per_unique_dialed": {
+			          "Target": {
+			            "Entity": "recovery.percentile_for_WPC__per_unique_dialed"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "recovery"
+			            },
+			            "Object": {
+			              "Role": "recovery.percentile_for_WPC__per_unique_dialed"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+
